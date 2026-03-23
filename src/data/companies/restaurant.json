@@ -1,0 +1,43 @@
+{
+  "theme": {
+    "primary": "#c0392b",
+    "secondary": "#2c3e50",
+    "background": "#fffaf5",
+    "text": "#2c3e50"
+  },
+  "companyName": "Veta-katten",
+  "industry": "Restaurant",
+  "city": "Stockholm",
+  "phone": "08-777 88 99",
+  "email": "hello@bellanapoli.se",
+  "bookingUrl": "https://example.com/book-restaurant",
+  "address": "Kungsgatan 14",
+  "openingHours": "Mon-Sun 11:00-22:00",
+  "heroTitle": "Authentic Italian dining in the heart of Stockholm",
+  "heroText": "Bella Napoli serves fresh pasta, wood-fired pizza, and classic Italian dishes in a warm and welcoming setting.",
+  "aboutText": "Our restaurant combines traditional Italian flavors with a modern dining experience for lunch, dinner, and special occasions.",
+  "services": [
+    {
+      "title": "Dine-In",
+      "description": "Enjoy a full Italian dining experience in our restaurant."
+    },
+    {
+      "title": "Takeaway",
+      "description": "Order your favorite dishes for pickup."
+    },
+    {
+      "title": "Private Events",
+      "description": "Host birthdays, team dinners, and celebrations with us."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Do you take table reservations?",
+      "answer": "Yes, you can reserve a table through our booking link or by phone."
+    },
+    {
+      "question": "Do you offer vegetarian options?",
+      "answer": "Yes, we have several vegetarian dishes on the menu."
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "theme": {
+    "primary": "#ff4d4d",
+    "secondary": "#1a1a1a",
+    "background": "#ffffff",
+    "text": "#111111"
+  },
+  "companyName": "Nordic Wellness Ekerö",
+  "industry": "Gym",
+  "city": "Stockholm",
+  "phone": "08-555 12 34",
+  "email": "info@ironcoregym.se",
+  "bookingUrl": "https://example.com/book-gym",
+  "address": "Sveavägen 22",
+  "openingHours": "Mon-Fri 06:00-22:00, Sat-Sun 08:00-20:00",
+  "heroTitle": "Train stronger, feel better",
+  "heroText": "IronCore Gym helps you build strength, confidence, and long-term fitness with modern equipment and expert coaching.",
+  "aboutText": "We offer a welcoming training environment in central Stockholm with memberships, personal training, and group classes.",
+  "services": [
+    {
+      "title": "Gym Membership",
+      "description": "Access to our full gym with flexible membership options."
+    },
+    {
+      "title": "Personal Training",
+      "description": "One-on-one coaching tailored to your goals."
+    },
+    {
+      "title": "Group Classes",
+      "description": "Join motivating classes for strength, cardio, and mobility."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Do you offer trial sessions?",
+      "answer": "Yes, we offer one free trial session for new visitors."
+    },
+    {
+      "question": "Do you have showers and lockers?",
+      "answer": "Yes, both showers and lockers are available."
+    }
+  ]
+}

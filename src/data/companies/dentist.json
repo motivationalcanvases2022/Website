@@ -1,0 +1,54 @@
+{
+  "companyName": "Nordic Smile Dental",
+  "logo": "/images/dentist-logo.png",
+  "heroImage": "/images/dentist-hero.jpg",
+
+  "theme": {
+    "primary": "#2bb3c0",
+    "secondary": "#0a2540",
+    "background": "#f5f9fc",
+    "text": "#0a2540"
+  },
+
+  "ctaText": "Book an appointment",
+  "tagline": "Modern dental care in central Stockholm",
+  "industry": "Dental Clinic",
+  "city": "Stockholm",
+  "phone": "08-123 45 67",
+  "email": "info@nordicsmile.se",
+  "bookingUrl": "https://example.com/book",
+  "address": "Drottninggatan 10, Stockholm",
+  "openingHours": "Mon-Fri 08:00-17:00",
+
+  "heroTitle": "Professional dental care with a personal touch",
+  "heroSubtitle": "We help patients with modern dental treatments in a calm and welcoming environment.",
+  "heroText": "We help patients with modern dental treatments in a calm and welcoming environment.",
+
+  "aboutText": "Nordic Smile Dental offers preventive and cosmetic dentistry for families and professionals in Stockholm.",
+
+  "services": [
+    {
+      "title": "Dental Cleaning",
+      "description": "Professional cleaning to maintain healthy teeth and gums."
+    },
+    {
+      "title": "Teeth Whitening",
+      "description": "Safe and effective whitening treatments for a brighter smile."
+    },
+    {
+      "title": "Dental Implants",
+      "description": "Long-term solutions for missing teeth."
+    }
+  ],
+
+  "faq": [
+    {
+      "question": "Do you accept emergency appointments?",
+      "answer": "Yes, please call us directly for emergency availability."
+    },
+    {
+      "question": "How do I book an appointment?",
+      "answer": "You can use our booking link or contact us by phone."
+    }
+  ]
+}
