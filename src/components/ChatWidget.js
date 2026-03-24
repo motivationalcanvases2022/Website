@@ -47,7 +47,7 @@ export default function ChatWidget() {
     setInput("");
 
     try {
-      const res = await fetch("http://localhost:3001/api/chat", {
+      const res = await fetch("https://chatbot-ondf.onrender.com/api/chat", {  
         method: "POST",
         headers: {
           "Content-Type": "application/json"
