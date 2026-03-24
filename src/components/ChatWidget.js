@@ -47,7 +47,7 @@ export default function ChatWidget() {
     setInput("");
 
     try {
-      const res = await fetch("https://chatbot-ondf.onrender.com/api/chat", {  
+      const res = await fetch("https://chatbot-ondf.onrender.com/api/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -55,20 +55,26 @@ export default function ChatWidget() {
         body: JSON.stringify({
           message: userMessage,
           history: [],
-          company
+          company: company
         })
       });
 
       const data = await res.json();
+      console.log("API response:", data);
+
+      if (!res.ok) {
+        throw new Error(data.error || "Request failed");
+      }
 
       setMessages((prev) => [
         ...prev,
         { role: "bot", text: data.reply || "No reply." }
       ]);
     } catch (err) {
+      console.error("Chat error:", err);
       setMessages((prev) => [
         ...prev,
-        { role: "bot", text: "Error connecting to AI." }
+        { role: "bot", text: err.message || "Error connecting to AI." }
       ]);
     }
   };
@@ -120,7 +126,10 @@ export default function ChatWidget() {
               placeholder="Ask something..."
               style={styles.input}
             />
-            <button onClick={sendMessage} style={{ ...styles.sendBtn, background: currentConfig.color }}>
+            <button
+              onClick={sendMessage}
+              style={{ ...styles.sendBtn, background: currentConfig.color }}
+            >
               Send
             </button>
           </div>
