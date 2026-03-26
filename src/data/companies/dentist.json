@@ -53,7 +53,7 @@
   ],
   "chatbot": {
     "name": "Dental Assistant",
-    "welcome": "Hej! Jag är Nordic Smile Dentals assistent. Hur kan jag hjälpa dig idag?",
+    "welcome": "Hej! Jag är Nordic Smile Dentals digitala assistent. Hur kan jag hjälpa dig idag?",
     "color": "#2bb3c0"
   }
 }
