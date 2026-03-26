@@ -1,10 +1,36 @@
+import { useEffect, useState } from "react";
 import { getCompanyData } from "../data/companyLoader";
 
 export default function Header() {
   const company = getCompanyData();
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY <= 10) {
+        setIsVisible(true);
+      } else if (currentScrollY < lastScrollY) {
+        setIsVisible(true);
+      } else if (currentScrollY > lastScrollY) {
+        setIsVisible(false);
+      }
+
+      lastScrollY = currentScrollY;
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <header className="header">
+    <header className={`header ${isVisible ? "header-visible" : "header-hidden"}`}>
       <div className="container header-inner">
         <a className="brand" href="#top">
           {company.logo ? (
@@ -35,14 +61,6 @@ export default function Header() {
           <a href="#faq">FAQ</a>
           <a href="#contact">Contact</a>
         </nav>
-
-        <a
-          className="btn btn-primary header-cta"
-          href={company.bookingUrl}
-          style={{ backgroundColor: company.theme?.primary || "#2563eb" }}
-        >
-          {company.ctaText || "Book now"}
-        </a>
 
         <a
           className="btn btn-primary header-cta"
