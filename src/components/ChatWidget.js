@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { getCompanyData } from "../data/companyLoader";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -6,33 +7,20 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
 
   const messagesEndRef = useRef(null);
+  const companyData = getCompanyData();
 
   const params = new URLSearchParams(window.location.search);
   const company = params.get("company") || "dentist";
 
-  const chatConfig = {
-    dentist: {
-      name: "Dental Assistant",
-      color: "#2bb3c0",
-      welcome: "Hej! Jag är klinikens assistent. Hur kan jag hjälpa dig idag?"
-    },
-    gym: {
-      name: "Gym Assistant",
-      color: "#ff4d4d",
-      welcome: "Hej! Jag är gymmets assistent. Hur kan jag hjälpa dig idag?"
-    },
-    restaurant: {
-      name: "Restaurant Assistant",
-      color: "#c0392b",
-      welcome: "Hej! Jag är restaurangens assistent. Hur kan jag hjälpa dig idag?"
-    }
+  const currentConfig = companyData.chatbot || {
+    name: "Assistant",
+    color: companyData.theme?.primary || "#2563eb",
+    welcome: "Hej! Hur kan jag hjälpa dig idag?"
   };
-
-  const currentConfig = chatConfig[company] || chatConfig.dentist;
 
   useEffect(() => {
     setMessages([{ role: "bot", text: currentConfig.welcome }]);
-  }, [company]);
+  }, [company, currentConfig.welcome]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });

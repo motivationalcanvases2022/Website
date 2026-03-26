@@ -50,5 +50,10 @@
       "question": "How do I book an appointment?",
       "answer": "You can use our booking link or contact us by phone."
     }
-  ]
+  ],
+  "chatbot": {
+    "name": "Dental Assistant",
+    "welcome": "Hej! Jag är Nordic Smile Dentals assistent. Hur kan jag hjälpa dig idag?",
+    "color": "#2bb3c0"
+  }
 }
