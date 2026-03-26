@@ -159,6 +159,8 @@ const styles = {
     right: "20px",
     width: "320px",
     height: "420px",
+    maxWidth: "calc(100vw - 24px)",
+    maxHeight: "calc(100vh - 120px)",
     background: "white",
     borderRadius: "12px",
     boxShadow: "0 10px 30px rgba(0,0,0,0.2)",
@@ -170,7 +172,8 @@ const styles = {
   header: {
     color: "white",
     padding: "12px 16px",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    fontSize: "16px"
   },
   messages: {
     flex: 1,
@@ -185,26 +188,35 @@ const styles = {
     width: "100%"
   },
   messageBubble: {
-    padding: "8px 12px",
+    padding: "10px 12px",
     borderRadius: "10px",
     maxWidth: "80%",
     whiteSpace: "pre-wrap",
-    wordBreak: "break-word"
+    wordBreak: "break-word",
+    fontSize: "15px",
+    lineHeight: "1.5"
   },
   inputRow: {
     display: "flex",
-    borderTop: "1px solid #eee"
+    borderTop: "1px solid #eee",
+    alignItems: "stretch"
   },
   input: {
     flex: 1,
-    padding: "10px",
+    padding: "14px 12px",
     border: "none",
-    outline: "none"
+    outline: "none",
+    fontSize: "16px",
+    lineHeight: "1.4",
+    minWidth: 0
   },
   sendBtn: {
-    padding: "10px 14px",
+    padding: "0 16px",
     color: "white",
     border: "none",
-    cursor: "pointer"
+    cursor: "pointer",
+    fontSize: "16px",
+    fontWeight: "600",
+    minWidth: "72px"
   }
 };
