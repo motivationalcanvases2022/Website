@@ -39,5 +39,8 @@
       "question": "Do you have showers and lockers?",
       "answer": "Yes, both showers and lockers are available."
     }
-  ]
+  ],
+  "chatbot": {
+    "welcome": "Hej! Jag är gymmets digitala assistent. Hur kan jag hjälpa dig idag?"
+  }
 }
