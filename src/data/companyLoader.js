@@ -1,11 +1,13 @@
 import dentist from "./companies/dentist.json";
 import gym from "./companies/gym.json";
 import restaurant from "./companies/restaurant.json";
+import electrician from "./companies/electrician.json";
 
 const companies = {
   dentist,
   gym,
-  restaurant
+  restaurant,
+  electrician
 };
 
 export function getCompanyData() {

@@ -11,6 +11,7 @@ export default function ChatWidget() {
 
   const params = new URLSearchParams(window.location.search);
   const company = params.get("company") || "dentist";
+  console.log("CHATWIDGET company:", company);
 
   const currentConfig = companyData.chatbot || {
     name: "Assistant",
