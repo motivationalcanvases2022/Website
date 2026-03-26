@@ -41,6 +41,8 @@
     }
   ],
   "chatbot": {
-    "welcome": "Hej! Jag är gymmets digitala assistent. Hur kan jag hjälpa dig idag?"
+    "name": "Gym Assistant",
+    "welcome": "Hej! Jag är gymmets digitala assistent. Hur kan jag hjälpa dig idag?",
+    "color": "#ff4d4d"
   }
 }

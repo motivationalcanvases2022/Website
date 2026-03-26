@@ -27,12 +27,19 @@ export default function ChatWidget() {
   }, [messages]);
 
   const sendMessage = async () => {
-    if (!input.trim()) return;
+    const trimmed = input.trim();
+    if (!trimmed) return;
 
-    const userMessage = input;
+    const userMessage = { role: "user", text: trimmed };
+    const nextMessages = [...messages, userMessage];
 
-    setMessages((prev) => [...prev, { role: "user", text: userMessage }]);
+    setMessages(nextMessages);
     setInput("");
+
+    const historyForApi = nextMessages.map((m) => ({
+      role: m.role === "bot" ? "assistant" : "user",
+      content: m.text
+    }));
 
     try {
       const res = await fetch("https://chatbot-ondf.onrender.com/api/chat", {
@@ -41,14 +48,13 @@ export default function ChatWidget() {
           "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          message: userMessage,
-          history: [],
+          message: trimmed,
+          history: historyForApi,
           company: company
         })
       });
 
       const data = await res.json();
-      console.log("API response:", data);
 
       if (!res.ok) {
         throw new Error(data.error || "Request failed");
@@ -59,7 +65,6 @@ export default function ChatWidget() {
         { role: "bot", text: data.reply || "No reply." }
       ]);
     } catch (err) {
-      console.error("Chat error:", err);
       setMessages((prev) => [
         ...prev,
         { role: "bot", text: err.message || "Error connecting to AI." }
@@ -94,13 +99,19 @@ export default function ChatWidget() {
               <div
                 key={i}
                 style={{
-                  ...styles.message,
-                  alignSelf: m.role === "user" ? "flex-end" : "flex-start",
-                  background: m.role === "user" ? currentConfig.color : "#e5e7eb",
-                  color: m.role === "user" ? "white" : "black"
+                  ...styles.messageRow,
+                  justifyContent: m.role === "user" ? "flex-end" : "flex-start"
                 }}
               >
-                {m.text}
+                <div
+                  style={{
+                    ...styles.messageBubble,
+                    background: m.role === "user" ? currentConfig.color : "#e5e7eb",
+                    color: m.role === "user" ? "#ffffff" : "#111827"
+                  }}
+                >
+                  {m.text}
+                </div>
               </div>
             ))}
             <div ref={messagesEndRef} />
@@ -168,11 +179,16 @@ const styles = {
     flexDirection: "column",
     gap: "8px"
   },
-  message: {
+  messageRow: {
+    display: "flex",
+    width: "100%"
+  },
+  messageBubble: {
     padding: "8px 12px",
     borderRadius: "10px",
     maxWidth: "80%",
-    whiteSpace: "pre-wrap"
+    whiteSpace: "pre-wrap",
+    wordBreak: "break-word"
   },
   inputRow: {
     display: "flex",

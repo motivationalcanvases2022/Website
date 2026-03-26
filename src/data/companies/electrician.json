@@ -1,0 +1,62 @@
+{
+  "companyName": "Stockholm Elektriker AB",
+  "logo": "/images/electrician-logo.png",
+  "heroImage": "/images/electrician-hero.jpg",
+
+  "theme": {
+    "primary": "#f39c12",
+    "secondary": "#d35400",
+    "background": "#fff8e1",
+    "text": "#663300"
+  },
+
+  "ctaText": "Boka el-service",
+  "tagline": "Trygg el-service i hela Stockholm",
+  "industry": "Elektriker",
+  "city": "Stockholm",
+  "phone": "08-987 65 43",
+  "email": "info@stockholmelektriker.se",
+  "bookingUrl": "https://example.com/book-electrical",
+  "address": "Elektrikervägen 10, Stockholm",
+  "openingHours": "Mån-Fre 08:00-17:30",
+
+  "heroTitle": "Erfarna elektriker, snabba och säkra lösningar",
+  "heroSubtitle": "Vi erbjuder professionell el-installation och underhåll.",
+  "heroText": "Stockholm Elektriker AB är ditt självklara val för el-tjänster i Stockholm med fokus på säkerhet och kundnöjdhet.",
+
+  "aboutText": "Med lång erfarenhet och certifierade elektriker erbjuder vi avancerade el-lösningar för både privat och företagskunder.",
+
+  "services": [
+    {
+      "title": "El-installation",
+      "description": "Installation av elcentraler, belysning och kablage."
+    },
+    {
+      "title": "Reparation och felsökning",
+      "description": "Snabb åtgärd vid elfel och problem.
+      "
+    },
+    {
+      "title": "Underhåll och service",
+      "description": "Regelbunden kontroll och service för att säkra installationernas funktion."
+    }
+  ],
+
+  "faq": [
+    {
+      "question": "Kan ni hjälpa till med akuta elproblem?",
+      "answer": "Ja, vi erbjuder snabb jourservice för akuta elproblem.
+      "
+    },
+    {
+      "question": "Hur bokar jag en elektriker?",
+      "answer": "Du kan boka via vår hemsida eller ringa oss direkt."
+    }
+  ],
+
+  "chatbot": {
+    "name": "El-assistent",
+    "welcome": "Hej! Jag är din digitala el-assistent. Hur kan jag hjälpa dig idag?",
+    "color": "#f39c12"
+  }
+}

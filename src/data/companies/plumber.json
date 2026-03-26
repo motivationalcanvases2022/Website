@@ -1,0 +1,60 @@
+{
+  "companyName": "Stockholm VVS AB",
+  "logo": "/images/plumber-logo.png",
+  "heroImage": "/images/plumber-hero.jpg",
+
+  "theme": {
+    "primary": "#007acc",
+    "secondary": "#004a80",
+    "background": "#f0f8ff",
+    "text": "#002f4b"
+  },
+
+  "ctaText": "Boka VVS-tjänster",
+  "tagline": "Professionell VVS-service i Stockholm",
+  "industry": "VVS",
+  "city": "Stockholm",
+  "phone": "08-765 43 21",
+  "email": "info@stockholmvvs.se",
+  "bookingUrl": "https://example.com/book-vvs",
+  "address": "Storgatan 5, Stockholm",
+  "openingHours": "Mån-Fre 07:00-18:00",
+
+  "heroTitle": "Erfarna VVS-experter till ditt förfogande",
+  "heroSubtitle": "Snabb och pålitlig service för alla VVS-behov.",
+  "heroText": "Vi erbjuder kvalitativa VVS-tjänster med fokus på kundnöjdhet och hållbarhet.",
+
+  "aboutText": "Stockholm VVS AB är ett ledande VVS-företag som erbjuder omfattande tjänster för både privatpersoner och företag i Stockholm.",
+
+  "services": [
+    {
+      "title": "Akuta VVS-reparationer",
+      "description": "Snabb hjälp vid läckor, stopp och andra akuta problem."
+    },
+    {
+      "title": "Installation av värmesystem",
+      "description": "Professionell installation av värmepumpar, golvvärme och radiatorer."
+    },
+    {
+      "title": "Underhåll och service",
+      "description": "Regelbunden kontroll och underhåll för att förebygga framtida problem."
+    }
+  ],
+
+  "faq": [
+    {
+      "question": "Kan ni utföra service på befintliga system?",
+      "answer": "Ja, vi erbjuder service och reparationer på alla typer av VVS-system."
+    },
+    {
+      "question": "Hur snabbt kan ni komma på akuta uppdrag?",
+      "answer": "Vi prioriterar akuta ärenden och kan oftast vara på plats inom 24 timmar."
+    }
+  ],
+
+  "chatbot": {
+    "name": "VVS-assistent",
+    "welcome": "Hej! Jag är Stockholm VVS:s digitala assistent. Hur kan jag hjälpa dig idag?",
+    "color": "#007acc"
+  }
+}

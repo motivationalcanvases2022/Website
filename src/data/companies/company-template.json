@@ -1,0 +1,60 @@
+{
+  "companyName": "Company Name",
+  "logo": "/images/company-logo.png",
+  "heroImage": "/images/company-hero.jpg",
+
+  "theme": {
+    "primary": "#2563eb",
+    "secondary": "#0f172a",
+    "background": "#ffffff",
+    "text": "#111111"
+  },
+
+  "ctaText": "Book now",
+  "tagline": "Short company tagline",
+  "industry": "Industry",
+  "city": "City",
+  "phone": "08-000 00 00",
+  "email": "info@company.se",
+  "bookingUrl": "https://example.com/book",
+  "address": "Street address",
+  "openingHours": "Mon-Fri 08:00-17:00",
+
+  "heroTitle": "Main headline",
+  "heroSubtitle": "Short supporting text",
+  "heroText": "Short supporting text",
+
+  "aboutText": "Describe the company here.",
+
+  "services": [
+    {
+      "title": "Service 1",
+      "description": "Description of service 1."
+    },
+    {
+      "title": "Service 2",
+      "description": "Description of service 2."
+    },
+    {
+      "title": "Service 3",
+      "description": "Description of service 3."
+    }
+  ],
+
+  "faq": [
+    {
+      "question": "Question 1?",
+      "answer": "Answer 1."
+    },
+    {
+      "question": "Question 2?",
+      "answer": "Answer 2."
+    }
+  ],
+
+  "chatbot": {
+    "name": "Company Assistant",
+    "welcome": "Hej! Hur kan jag hjälpa dig idag?",
+    "color": "#2563eb"
+  }
+}
