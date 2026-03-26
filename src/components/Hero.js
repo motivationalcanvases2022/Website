@@ -20,9 +20,9 @@ export default function Hero() {
 
         <h1>{company.heroTitle}</h1>
 
-        <p className="hero-text">
-          {company.heroSubtitle || company.heroText}
-        </p>
+        <div className="hero-text-wrapper">
+      <p className="hero-text">{company.heroSubtitle || company.heroText}</p>
+    </div>
 
         <div className="hero-actions">
           <a

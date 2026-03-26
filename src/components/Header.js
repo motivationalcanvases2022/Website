@@ -43,6 +43,14 @@ export default function Header() {
         >
           {company.ctaText || "Book now"}
         </a>
+
+        <a
+          className="btn btn-primary header-cta"
+          href={company.bookingUrl}
+          style={{ backgroundColor: company.theme?.primary || "#2563eb" }}
+        >
+          {company.ctaText || "Book now"}
+        </a>
       </div>
     </header>
   );

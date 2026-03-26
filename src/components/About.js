@@ -1,12 +1,15 @@
 import { getCompanyData } from "../data/companyLoader";
-const company = getCompanyData();
 
 export default function About() {
+  const company = getCompanyData();
+
   return (
     <section id="about" className="section">
       <div className="container">
-        <h2>About us</h2>
-        <p>{company.aboutText}</p>
+        <div className="about-content">
+          <h2>About us</h2>
+          <p>{company.aboutText}</p>
+        </div>
       </div>
     </section>
   );

@@ -1,0 +1,78 @@
+/* Contact Section Styles */
+
+.contact-section {
+  background: #f9fafb;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+
+.contact-title {
+  font-size: 2.75rem;
+  font-weight: 800;
+  color: #0a2540; /* Neutral mörk färg */
+  margin-bottom: 56px;
+  text-align: left; /* Vänsterställd */
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 36px;
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.contact-card {
+  background: #ffffff;
+  padding: 32px 28px;
+  border-radius: 24px;
+  box-shadow: 0 24px 48px rgba(15, 23, 42, 0.12);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.contact-card:hover {
+  box-shadow: 0 32px 56px rgba(15, 23, 42, 0.22);
+  transform: translateY(-6px);
+}
+
+.contact-card-title {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #0a2540; /* Neutral mörk färg */
+}
+
+.contact-card p {
+  font-size: 1.1rem;
+  color: #475569;
+  line-height: 1.6;
+  margin: 8px 0;
+}
+
+.contact-link {
+  color: var(--primary); /* Använder var(--primary) */
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+
+@media (max-width: 640px) {
+  .contact-section {
+    padding-top: 48px;
+    padding-bottom: 48px;
+  }
+
+  .contact-title {
+    font-size: 2rem;
+    margin-bottom: 32px;
+  }
+
+  .contact-grid {
+    gap: 24px;
+  }
+}

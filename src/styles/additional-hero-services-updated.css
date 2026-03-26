@@ -1,0 +1,58 @@
+/* Updated service icon placeholder */
+.service-icon-placeholder {
+  background: var(--primary);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+}
+
+/* Updated footer colors */
+.premium-footer {
+  background: var(--secondary);
+  color: #e5e7eb;
+  padding: 40px 0;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  text-align: center;
+}
+
+/* Replace hardcoded blues with var(--primary) */
+.nav a:hover {
+  color: var(--primary);
+}
+
+.contact-link {
+  color: var(--primary);
+}
+
+.service-card:hover {
+  box-shadow: 0 24px 56px rgba(211, 63, 73, 0.24); /* Adjusted from blue to red accent; consider using var(--primary) if red theme */
+  transform: translateY(-8px);
+}
+
+.service-icon-placeholder {
+  background: var(--primary);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.footer-content {
+  max-width: 1120px;
+  margin: 0 auto;
+}
+
+.contact-card-title {
+  color: var(--text);
+}
+
+.service-card h3 {
+  color: var(--text);
+}
+
+.service-card p {
+  color: var(--muted);
+}
