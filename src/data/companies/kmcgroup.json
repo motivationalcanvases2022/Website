@@ -1,0 +1,56 @@
+{
+  "theme": {
+    "primary": "#ff0000",
+    "secondary": "#000000",
+    "background": "#ffffff",
+    "text": "#111111"
+  },
+  "companyName": "KmcGroup",
+  "industry": "Webbplats utvecklare",
+  "city": "Stockholm",
+  "phone": "0723338984",
+  "email": "kmcgroup@gmail.com",
+  "bookingUrl": "",
+  "address": "Senapsvägen 18",
+  "openingHours": "Mån-Fredag 08-22, Lör-Söndag 10-14",
+  "heroTitle": "Välkommen till KmcGroup",
+  "heroText": "Vi är din pålitliga partner för webbplatsutveckling i Stockholm. Vi specialiserar oss på att skapa, underhålla och förbättra hemsidor med integrerade chat-botar och skräddarsydda SEO-lösningar.",
+  "aboutText": "På KmcGroup fokuserar vi på att leverera moderna och effektiva webbplatser som stärker ditt företag. Med vår expertis inom chat-botar och SEO hjälper vi dig att nå ut till din målgrupp och optimera din digitala närvaro. Oavsett om du behöver en ny hemsida, en chatbot eller SEO-lösningar, är vi här för att hjälpa dig.",
+  "services": [
+    {
+      "title": "Bygga hemsidor",
+      "description": "Vi skapar skräddarsydda hemsidor som är både funktionella och attraktiva, anpassade efter dina behov och mål."
+    },
+    {
+      "title": "Bygga chat-botar",
+      "description": "Våra chat-botar är designade för att förbättra kundupplevelsen och effektivisera kommunikationen med dina besökare."
+    },
+    {
+      "title": "Integrera webbsida med chat-bot",
+      "description": "Vi integrerar chat-botar direkt på din hemsida för att ge dina kunder snabb och effektiv support."
+    },
+    {
+      "title": "SEO-lösningar",
+      "description": "Våra skräddarsydda SEO-lösningar hjälper din webbplats att ranka högre i sökmotorer och öka synligheten."
+    },
+    {
+      "title": "Sociala medier underhåll",
+      "description": "Vi hanterar och optimerar dina sociala mediekonton för att maximera din närvaro och engagemang online."
+    },
+    {
+      "title": "Automatiserade svar på mail från kunder",
+      "description": "Vi erbjuder lösningar för automatiserade svar på kundmail, vilket sparar tid och ger snabbare service."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Kan man köpa enbart en integrerad chatbot?",
+      "answer": "Ja, det alternativet är väldigt populärt och effektivt sätt att förbättra kundupplevelser samt eliminera onödigt jobb för er."
+    }
+  ],
+  "chatbot": {
+    "name": "KmcGroup Assistent",
+    "welcome": "Hej! Jag är KmcGroup digitala assistent. Hur kan jag hjälpa dig idag?",
+    "color": "#ff0000"
+  }
+}
