@@ -1,14 +1,14 @@
 {
   "theme": {
-    "primary": "#ff0000",
-    "secondary": "#000000",
+    "primary": "#ff4d4d",
+    "secondary": "#1a1a1a",
     "background": "#ffffff",
     "text": "#111111"
   },
   "companyName": "KmcGroup",
   "industry": "Webbplats utvecklare",
   "city": "Stockholm",
-  "phone": "0723338984",
+  "phone": "072-333 89 84",
   "email": "kmcgroup@gmail.com",
   "bookingUrl": "",
   "address": "Senapsvägen 18",
@@ -19,38 +19,46 @@
   "services": [
     {
       "title": "Bygga hemsidor",
-      "description": "Vi skapar skräddarsydda hemsidor som är både funktionella och attraktiva, anpassade efter dina behov och mål."
+      "description": "Vi skapar användarvänliga och responsiva webbplatser som är skräddarsydda efter ditt företags behov."
     },
     {
       "title": "Bygga chat-botar",
-      "description": "Våra chat-botar är designade för att förbättra kundupplevelsen och effektivisera kommunikationen med dina besökare."
+      "description": "Vi utvecklar smarta chatbotar som kan interagera med dina kunder dygnet runt, vilket förbättrar kundservicen."
     },
     {
-      "title": "Integrera webbsida med chat-bot",
-      "description": "Vi integrerar chat-botar direkt på din hemsida för att ge dina kunder snabb och effektiv support."
+      "title": "Integrera websida med chat-bot",
+      "description": "Vi kopplar samman din webbplats med en chatbot för att automatisera kundinteraktioner och öka engagemanget."
     },
     {
       "title": "SEO-lösningar",
-      "description": "Våra skräddarsydda SEO-lösningar hjälper din webbplats att ranka högre i sökmotorer och öka synligheten."
+      "description": "Vi optimerar din webbplats för sökmotorer så att du når ut till fler kunder och ökar din synlighet online."
     },
     {
       "title": "Sociala medier underhåll",
-      "description": "Vi hanterar och optimerar dina sociala mediekonton för att maximera din närvaro och engagemang online."
+      "description": "Vi hanterar dina sociala medier för att säkerställa att ditt varumärke är aktivt och engagerande."
     },
     {
       "title": "Automatiserade svar på mail från kunder",
-      "description": "Vi erbjuder lösningar för automatiserade svar på kundmail, vilket sparar tid och ger snabbare service."
+      "description": "Vi implementerar automatiserade e-postsvar för att effektivisera kommunikationen med dina kunder."
     }
   ],
   "faq": [
     {
       "question": "Kan man köpa enbart en integrerad chatbot?",
-      "answer": "Ja, det alternativet är väldigt populärt och effektivt sätt att förbättra kundupplevelser samt eliminera onödigt jobb för er."
+      "answer": "Ja, det är ett populärt alternativ för företag som vill förbättra kundupplevelsen och minska onödigt manuellt arbete."
+    },
+    {
+      "question": "Vad kostar det att köpa en hemsida ?",
+      "answer": "Det kostar från 8 900 - 12 900 SEK. Sen underhåll och kontinuelig förbttring av hemsdian kostar från 900 - 2 900 SEK/mån."
+    },
+    {
+      "question": "Hur snabbt går det för hemsidan att vara live ?",
+      "answer": "Det tar i genomsnitt 24 timmar för hemsidan och chat-boten att vara live."
     }
   ],
   "chatbot": {
     "name": "KmcGroup Assistent",
     "welcome": "Hej! Jag är KmcGroup digitala assistent. Hur kan jag hjälpa dig idag?",
-    "color": "#ff0000"
+    "color": "#ff4d4d"
   }
 }
