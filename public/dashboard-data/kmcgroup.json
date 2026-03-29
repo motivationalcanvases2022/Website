@@ -1,0 +1,31 @@
+{
+  "company": "kmcgroup",
+  "generatedAt": "2026-03-29T10:00:27.892Z",
+  "logFilesIncluded": 1,
+  "totalMessages": 1,
+  "bookingCount": 0,
+  "fallbackCount": 0,
+  "fallbackRate": 0,
+  "topQuestions": [
+    {
+      "count": 1,
+      "original": "Hej , vilka tjänster erbjuder ni ?"
+    }
+  ],
+  "latestMessages": [
+    {
+      "timestamp": "2026-03-29T09:04:09.336Z",
+      "company": "kmcgroup",
+      "userMessage": "Hej , vilka tjänster erbjuder ni ?",
+      "botResponse": "Hej! På KmcGroup är vi specialiserade på att utveckla webbplatser och erbjuder även integrerade chatbot-lösningar som kan förbättra kundupplevelsen och effektivisera ert arbete. Om du vill veta mer om våra tjänster eller behöver hjälp med något specifikt, är du varmt välkommen att fråga! Vill du kanske boka ett möte för att diskutera dina behov?",
+      "intent": "general",
+      "bookingDetected": false,
+      "fallback": false
+    }
+  ],
+  "insights": [
+    "Inga bokningsintentioner upptäckta ännu – testa tydligare CTA och bokningsflöde.",
+    "Chatboten svarade på alla loggade frågor utan fallback.",
+    "Vanligaste frågorna visar vad kunderna faktiskt vill veta mest."
+  ]
+}

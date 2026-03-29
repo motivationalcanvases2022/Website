@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { getCompanyData } from "../data/companyLoader";
 
+const API_URL =
+  process.env.REACT_APP_CHATBOT_API_URL || "http://localhost:3001/api/chat";
+
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -11,12 +14,14 @@ export default function ChatWidget() {
 
   const params = new URLSearchParams(window.location.search);
   const company = params.get("company") || "dentist";
+
   console.log("CHATWIDGET company:", company);
+  console.log("CHATWIDGET API_URL:", API_URL);
 
   const currentConfig = companyData.chatbot || {
     name: "Assistant",
     color: companyData.theme?.primary || "#2563eb",
-    welcome: "Hej! Hur kan jag hjälpa dig idag?"
+    welcome: "Hej! Hur kan jag hjälpa dig idag?",
   };
 
   useEffect(() => {
@@ -39,20 +44,20 @@ export default function ChatWidget() {
 
     const historyForApi = nextMessages.map((m) => ({
       role: m.role === "bot" ? "assistant" : "user",
-      content: m.text
+      content: m.text,
     }));
 
     try {
-      const res = await fetch("https://chatbot-ondf.onrender.com/api/chat", {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message: trimmed,
           history: historyForApi,
-          company: company
-        })
+          company: company,
+        }),
       });
 
       const data = await res.json();
@@ -63,12 +68,13 @@ export default function ChatWidget() {
 
       setMessages((prev) => [
         ...prev,
-        { role: "bot", text: data.reply || "No reply." }
+        { role: "bot", text: data.reply || "No reply." },
       ]);
     } catch (err) {
+      console.error("ChatWidget error:", err);
       setMessages((prev) => [
         ...prev,
-        { role: "bot", text: err.message || "Error connecting to AI." }
+        { role: "bot", text: err.message || "Error connecting to AI." },
       ]);
     }
   };
@@ -101,14 +107,15 @@ export default function ChatWidget() {
                 key={i}
                 style={{
                   ...styles.messageRow,
-                  justifyContent: m.role === "user" ? "flex-end" : "flex-start"
+                  justifyContent: m.role === "user" ? "flex-end" : "flex-start",
                 }}
               >
                 <div
                   style={{
                     ...styles.messageBubble,
-                    background: m.role === "user" ? currentConfig.color : "#e5e7eb",
-                    color: m.role === "user" ? "#ffffff" : "#111827"
+                    background:
+                      m.role === "user" ? currentConfig.color : "#e5e7eb",
+                    color: m.role === "user" ? "#ffffff" : "#111827",
                   }}
                 >
                   {m.text}
@@ -151,7 +158,7 @@ const styles = {
     fontSize: "24px",
     border: "none",
     cursor: "pointer",
-    zIndex: 9999
+    zIndex: 9999,
   },
   chatBox: {
     position: "fixed",
@@ -167,13 +174,13 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     overflow: "hidden",
-    zIndex: 9999
+    zIndex: 9999,
   },
   header: {
     color: "white",
     padding: "12px 16px",
     fontWeight: "bold",
-    fontSize: "16px"
+    fontSize: "16px",
   },
   messages: {
     flex: 1,
@@ -181,11 +188,11 @@ const styles = {
     overflowY: "auto",
     display: "flex",
     flexDirection: "column",
-    gap: "8px"
+    gap: "8px",
   },
   messageRow: {
     display: "flex",
-    width: "100%"
+    width: "100%",
   },
   messageBubble: {
     padding: "10px 12px",
@@ -194,12 +201,12 @@ const styles = {
     whiteSpace: "pre-wrap",
     wordBreak: "break-word",
     fontSize: "15px",
-    lineHeight: "1.5"
+    lineHeight: "1.5",
   },
   inputRow: {
     display: "flex",
     borderTop: "1px solid #eee",
-    alignItems: "stretch"
+    alignItems: "stretch",
   },
   input: {
     flex: 1,
@@ -208,7 +215,7 @@ const styles = {
     outline: "none",
     fontSize: "16px",
     lineHeight: "1.4",
-    minWidth: 0
+    minWidth: 0,
   },
   sendBtn: {
     padding: "0 16px",
@@ -217,6 +224,6 @@ const styles = {
     cursor: "pointer",
     fontSize: "16px",
     fontWeight: "600",
-    minWidth: "72px"
-  }
+    minWidth: "72px",
+  },
 };

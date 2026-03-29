@@ -8,16 +8,25 @@ import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ChatWidget from "./components/ChatWidget";
+import DashboardPage from "./DashboardPage";
 import "./styles/main.css";
 
-const company = getCompanyData();
+const path = window.location.pathname;
 
-document.documentElement.style.setProperty("--primary", company.theme.primary);
-document.documentElement.style.setProperty("--secondary", company.theme.secondary);
-document.documentElement.style.setProperty("--bg", company.theme.background);
-document.documentElement.style.setProperty("--text", company.theme.text);
+if (path !== "/dashboard") {
+  const company = getCompanyData();
+
+  document.documentElement.style.setProperty("--primary", company.theme.primary);
+  document.documentElement.style.setProperty("--secondary", company.theme.secondary);
+  document.documentElement.style.setProperty("--bg", company.theme.background);
+  document.documentElement.style.setProperty("--text", company.theme.text);
+}
 
 export default function App() {
+  if (path === "/dashboard") {
+    return <DashboardPage />;
+  }
+
   return (
     <div className="site-shell">
       <Header />

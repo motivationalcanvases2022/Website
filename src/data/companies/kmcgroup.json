@@ -1,59 +1,51 @@
 {
   "theme": {
-    "primary": "#ff4d4d",
+    "primary": "#ff4b4b",
     "secondary": "#1a1a1a",
     "background": "#ffffff",
     "text": "#111111"
   },
   "companyName": "KmcGroup",
-  "industry": "Webbplats utvecklare",
+  "industry": "Websida utvecklare",
   "city": "Stockholm",
-  "phone": "072-333 89 84",
-  "email": "kmcgroup@gmail.com",
+  "phone": "0723338984",
+  "email": "kimskogh04@gmail.com",
   "bookingUrl": "",
   "address": "Senapsvägen 18",
-  "openingHours": "Mån-Fredag 08-22, Lör-Söndag 10-14",
-  "heroTitle": "Välkommen till KmcGroup",
-  "heroText": "Vi är din pålitliga partner för webbplatsutveckling i Stockholm. Vi specialiserar oss på att skapa, underhålla och förbättra hemsidor med integrerade chat-botar och skräddarsydda SEO-lösningar.",
-  "aboutText": "På KmcGroup fokuserar vi på att leverera moderna och effektiva webbplatser som stärker ditt företag. Med vår expertis inom chat-botar och SEO hjälper vi dig att nå ut till din målgrupp och optimera din digitala närvaro. Oavsett om du behöver en ny hemsida, en chatbot eller SEO-lösningar, är vi här för att hjälpa dig.",
+  "openingHours": "Mån - Fredag 08-22 \nLör-Söndag 10-14",
+  "heroTitle": "Välkommen till KmcGroup - Din partner för digital framgång",
+  "heroText": "På KmcGroup specialiserar vi oss på att skapa, underhålla och optimera hemsidor med fokus på att integrera avancerade chattbotar och SEO-lösningar. Vi hjälper företag att växa och nå sina mål genom effektiva digitala lösningar.",
+  "aboutText": "Vi är baserade i Stockholm och erbjuder skräddarsydda tjänster inom webbplatsutveckling. Vårt mål är att göra din webbplats till ett kraftfullt verktyg för att attrahera och behålla kunder. Med vårt moderna tillvägagångssätt kombinerar vi design, teknik och marknadsföring för att leverera enastående resultat.",
   "services": [
     {
       "title": "Bygga hemsidor",
-      "description": "Vi skapar användarvänliga och responsiva webbplatser som är skräddarsydda efter ditt företags behov."
+      "description": "Vi skapar professionella och användarvänliga hemsidor som är anpassade efter dina behov och mål."
     },
     {
       "title": "Bygga chat-botar",
-      "description": "Vi utvecklar smarta chatbotar som kan interagera med dina kunder dygnet runt, vilket förbättrar kundservicen."
+      "description": "Vi utvecklar skräddarsydda chattbotar som förbättrar kundinteraktionen och automatiserar svar på vanliga frågor."
     },
     {
       "title": "Integrera websida med chat-bot",
-      "description": "Vi kopplar samman din webbplats med en chatbot för att automatisera kundinteraktioner och öka engagemanget."
+      "description": "Vi integrerar intelligent chattfunktionalitet direkt på din webbplats för att öka engagemanget och förbättra kundservicen."
     },
     {
       "title": "SEO-lösningar",
-      "description": "Vi optimerar din webbplats för sökmotorer så att du når ut till fler kunder och ökar din synlighet online."
+      "description": "Våra SEO-experter optimerar din webbplats för att förbättra synligheten och rankingen på sökmotorer."
     },
     {
       "title": "Sociala medier underhåll",
-      "description": "Vi hanterar dina sociala medier för att säkerställa att ditt varumärke är aktivt och engagerande."
+      "description": "Vi hjälper till med att skapa och underhålla din närvaro på sociala medier för att nå ut till en bredare publik."
     },
     {
       "title": "Automatiserade svar på mail från kunder",
-      "description": "Vi implementerar automatiserade e-postsvar för att effektivisera kommunikationen med dina kunder."
+      "description": "Vår teknik möjliggör automatiserade svar på kundförfrågningar vilket sparar tid och ökar effektiviteten."
     }
   ],
   "faq": [
     {
       "question": "Kan man köpa enbart en integrerad chatbot?",
-      "answer": "Ja, det är ett populärt alternativ för företag som vill förbättra kundupplevelsen och minska onödigt manuellt arbete."
-    },
-    {
-      "question": "Vad kostar det att köpa en hemsida ?",
-      "answer": "Det kostar från 8 900 - 12 900 SEK. Sen underhåll och kontinuelig förbttring av hemsdian kostar från 900 - 2 900 SEK/mån."
-    },
-    {
-      "question": "Hur snabbt går det för hemsidan att vara live ?",
-      "answer": "Det tar i genomsnitt 24 timmar för hemsidan och chat-boten att vara live."
+      "answer": "Ja, det alternativet är väldigt populärt och effektivt sätt att förbättra kundupplevelser samt eliminerar onödigt jobb för er."
     }
   ],
   "chatbot": {
