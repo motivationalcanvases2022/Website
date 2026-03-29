@@ -2,7 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import { getCompanyData } from "../data/companyLoader";
 
 const API_URL =
-  process.env.REACT_APP_CHATBOT_API_URL || "http://localhost:3001/api/chat";
+  window.location.hostname === "localhost"
+    ? "http://localhost:3001/api/chat"
+    : "https://chatbot-ondf.onrender.com/api/chat";
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
@@ -14,9 +16,6 @@ export default function ChatWidget() {
 
   const params = new URLSearchParams(window.location.search);
   const company = params.get("company") || "dentist";
-
-  console.log("CHATWIDGET company:", company);
-  console.log("CHATWIDGET API_URL:", API_URL);
 
   const currentConfig = companyData.chatbot || {
     name: "Assistant",
