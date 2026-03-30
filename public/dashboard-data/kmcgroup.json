@@ -1,8 +1,8 @@
 {
   "company": "kmcgroup",
-  "generatedAt": "2026-03-29T10:00:27.892Z",
-  "logFilesIncluded": 1,
-  "totalMessages": 1,
+  "generatedAt": "2026-03-30T08:09:51.097Z",
+  "logFilesIncluded": 2,
+  "totalMessages": 4,
   "bookingCount": 0,
   "fallbackCount": 0,
   "fallbackRate": 0,
@@ -10,9 +10,48 @@
     {
       "count": 1,
       "original": "Hej , vilka tjänster erbjuder ni ?"
+    },
+    {
+      "count": 1,
+      "original": "Hej, vad för tjänster har ni ?"
+    },
+    {
+      "count": 1,
+      "original": "Vad är det för priser ?"
+    },
+    {
+      "count": 1,
+      "original": "Hur kan jag komma till odenplan ifrån brommaplan ?"
     }
   ],
   "latestMessages": [
+    {
+      "timestamp": "2026-03-30T08:07:22.512Z",
+      "company": "kmcgroup",
+      "userMessage": "Hur kan jag komma till odenplan ifrån brommaplan ?",
+      "botResponse": "Jag kan tyvärr inte ge detaljerade vägbeskrivningar, men för att ta dig från Brommaplan till Odenplan kan du använda kollektivtrafiken i Stockholm, till exempel tunnelbana eller buss. Ett vanligt sätt är att ta tunnelbanans gröna linje från Brommaplan mot Odenplan, vilket brukar vara smidigt och snabbt. För exakt tidtabell och rutt rekommenderar jag att du använder SL:s reseplanerare eller deras app. Om du behöver hjälp med något annat, till exempel våra tjänster eller bokningar, är det bara att säga till!",
+      "intent": "general",
+      "bookingDetected": false,
+      "fallback": false
+    },
+    {
+      "timestamp": "2026-03-30T08:06:43.970Z",
+      "company": "kmcgroup",
+      "userMessage": "Vad är det för priser ?",
+      "botResponse": "Hej! Priserna kan variera beroende på vilken typ av webbplats eller tjänst du är intresserad av, till exempel om du vill ha en integrerad chatbot eller en komplett webbplats. För att ge dig en så bra offert som möjligt rekommenderar jag att du kontaktar oss direkt på telefon 0723338984 eller via e-post kimskogh04@gmail.com. Vi hjälper dig gärna att hitta en lösning som passar din budget! Vill du att jag hjälper dig att boka en tid för konsultation?",
+      "intent": "general",
+      "bookingDetected": false,
+      "fallback": false
+    },
+    {
+      "timestamp": "2026-03-30T08:06:30.600Z",
+      "company": "kmcgroup",
+      "userMessage": "Hej, vad för tjänster har ni ?",
+      "botResponse": "Hej! Vi på KmcGroup är specialiserade på att utveckla webbplatser. Vi hjälper dig med allt från att skapa en ny hemsida till att integrera smarta funktioner som till exempel chatbotar för att förbättra kundupplevelsen. Om du är intresserad kan vi även guida dig i bokningar eller andra frågor du har kring våra tjänster. Vill du veta mer om något specifikt?",
+      "intent": "general",
+      "bookingDetected": false,
+      "fallback": false
+    },
     {
       "timestamp": "2026-03-29T09:04:09.336Z",
       "company": "kmcgroup",
