@@ -26,14 +26,29 @@ export default function DashboardPage() {
         setLoading(true);
         setError("");
 
-        const res = await fetch(`/dashboard-data/${company}.json`);
+        const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
+
+        if (!apiBase) {
+          throw new Error(
+            "REACT_APP_CHATBOT_API_URL saknas i Vercel environment variables."
+          );
+        }
+
+        const res = await fetch(
+          `${apiBase}/api/dashboard-summary?company=${company}`,
+          {
+            cache: "no-store",
+          }
+        );
+
         if (!res.ok) {
-          throw new Error("Kunde inte läsa dashboard-data.");
+          throw new Error("Kunde inte läsa live dashboard-data.");
         }
 
         const json = await res.json();
         setData(json);
       } catch (err) {
+        console.error("Dashboard load error:", err);
         setError(err.message || "Något gick fel.");
       } finally {
         setLoading(false);
@@ -55,30 +70,28 @@ export default function DashboardPage() {
     return <div style={styles.page}>Ingen data hittades.</div>;
   }
 
+  const fallbackPercent = `${((data.fallbackRate || 0) * 100).toFixed(1)}%`;
+
   return (
     <div style={styles.page}>
       <div style={styles.container}>
         <h1 style={styles.title}>Dashboard – {data.company}</h1>
-        <p style={styles.meta}>
-          Genererad: {new Date(data.generatedAt).toLocaleString()}
-        </p>
+        <p style={styles.meta}>Live-data från chatboten</p>
 
         <div style={styles.grid}>
-          <StatCard label="Totala meddelanden" value={data.totalMessages} />
-          <StatCard label="Bokningsintentioner" value={data.bookingCount} />
-          <StatCard label="Fallbacks" value={data.fallbackCount} />
-          <StatCard label="Fallback-rate" value={`${data.fallbackRate}%`} />
-        </div>
-
-        <div style={styles.section}>
-          <h2 style={styles.sectionTitle}>Business insights</h2>
-          <ul style={styles.list}>
-            {data.insights?.map((item, index) => (
-              <li key={index} style={styles.listItem}>
-                {item}
-              </li>
-            ))}
-          </ul>
+          <StatCard label="Totala meddelanden" value={data.totalMessages || 0} />
+          <StatCard
+            label="Bokningsintentioner"
+            value={data.bookingIntentCount || 0}
+          />
+          <StatCard
+            label="Fallback-rate"
+            value={fallbackPercent}
+          />
+          <StatCard
+            label="Toppfrågor"
+            value={data.topQuestions?.length || 0}
+          />
         </div>
 
         <div style={styles.section}>
@@ -87,7 +100,7 @@ export default function DashboardPage() {
             <ul style={styles.list}>
               {data.topQuestions.map((item, index) => (
                 <li key={index} style={styles.listItem}>
-                  {item.original} <strong>({item.count})</strong>
+                  {item.question} <strong>({item.count})</strong>
                 </li>
               ))}
             </ul>
@@ -97,36 +110,20 @@ export default function DashboardPage() {
         </div>
 
         <div style={styles.section}>
-          <h2 style={styles.sectionTitle}>Senaste meddelanden</h2>
-          {data.latestMessages?.length ? (
-            <div style={styles.messageList}>
-              {data.latestMessages.map((item, index) => (
-                <div key={index} style={styles.messageCard}>
-                  <div style={styles.messageTopRow}>
-                    <span style={styles.timestamp}>
-                      {new Date(item.timestamp).toLocaleString()}
-                    </span>
-                    <span style={styles.badges}>
-                      {item.bookingDetected ? "📅 Booking" : "💬 General"}{" "}
-                      {item.fallback ? "⚠️ Fallback" : "✅ OK"}
-                    </span>
-                  </div>
-
-                  <div style={styles.messageBlock}>
-                    <div style={styles.messageLabel}>Fråga</div>
-                    <div>{item.userMessage}</div>
-                  </div>
-
-                  <div style={styles.messageBlock}>
-                    <div style={styles.messageLabel}>Svar</div>
-                    <div>{item.botResponse}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <p>Inga meddelanden hittades ännu.</p>
-          )}
+          <h2 style={styles.sectionTitle}>Snabb sammanfattning</h2>
+          <ul style={styles.list}>
+            <li style={styles.listItem}>
+              Chatboten har tagit emot <strong>{data.totalMessages || 0}</strong>{" "}
+              meddelanden.
+            </li>
+            <li style={styles.listItem}>
+              <strong>{data.bookingIntentCount || 0}</strong> meddelanden har
+              identifierats som bokningsintentioner.
+            </li>
+            <li style={styles.listItem}>
+              Fallback-rate ligger på <strong>{fallbackPercent}</strong>.
+            </li>
+          </ul>
         </div>
       </div>
     </div>
@@ -191,39 +188,5 @@ const styles = {
   listItem: {
     marginBottom: "10px",
     lineHeight: 1.5,
-  },
-  messageList: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "14px",
-  },
-  messageCard: {
-    border: "1px solid #e5e7eb",
-    borderRadius: "12px",
-    padding: "14px",
-    background: "#fafafa",
-  },
-  messageTopRow: {
-    display: "flex",
-    justifyContent: "space-between",
-    gap: "12px",
-    marginBottom: "12px",
-    flexWrap: "wrap",
-  },
-  timestamp: {
-    color: "#6b7280",
-    fontSize: "14px",
-  },
-  badges: {
-    fontSize: "14px",
-    fontWeight: "600",
-  },
-  messageBlock: {
-    marginBottom: "10px",
-    lineHeight: 1.5,
-  },
-  messageLabel: {
-    fontWeight: "700",
-    marginBottom: "4px",
   },
 };
