@@ -5,11 +5,12 @@ function getCompanyFromUrl() {
   return params.get("company") || "kmcgroup";
 }
 
-function StatCard({ label, value }) {
+function StatCard({ label, value, sub }) {
   return (
     <div style={styles.card}>
-      <div style={styles.cardLabel}>{label}</div>
       <div style={styles.cardValue}>{value}</div>
+      <div style={styles.cardLabel}>{label}</div>
+      {sub && <div style={styles.cardSub}>{sub}</div>}
     </div>
   );
 }
@@ -17,113 +18,102 @@ function StatCard({ label, value }) {
 export default function DashboardPage() {
   const company = useMemo(() => getCompanyFromUrl(), []);
   const [data, setData] = useState(null);
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
-      try {
-        setLoading(true);
-        setError("");
+      const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
 
-        const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
+      const res = await fetch(
+        `${apiBase}/api/dashboard-summary?company=${company}`,
+        { cache: "no-store" }
+      );
 
-        if (!apiBase) {
-          throw new Error(
-            "REACT_APP_CHATBOT_API_URL saknas i Vercel environment variables."
-          );
-        }
-
-        const res = await fetch(
-          `${apiBase}/api/dashboard-summary?company=${company}`,
-          {
-            cache: "no-store",
-          }
-        );
-
-        if (!res.ok) {
-          throw new Error("Kunde inte läsa live dashboard-data.");
-        }
-
-        const json = await res.json();
-        setData(json);
-      } catch (err) {
-        console.error("Dashboard load error:", err);
-        setError(err.message || "Något gick fel.");
-      } finally {
-        setLoading(false);
-      }
+      const json = await res.json();
+      setData(json);
+      setLoading(false);
     }
 
     loadData();
   }, [company]);
 
-  if (loading) {
-    return <div style={styles.page}>Laddar dashboard...</div>;
-  }
+  if (loading) return <div style={styles.page}>Laddar...</div>;
+  if (!data) return <div style={styles.page}>Ingen data</div>;
 
-  if (error) {
-    return <div style={styles.page}>Fel: {error}</div>;
-  }
+  const fallbackPercent = ((data.fallbackRate || 0) * 100).toFixed(1);
 
-  if (!data) {
-    return <div style={styles.page}>Ingen data hittades.</div>;
-  }
-
-  const fallbackPercent = `${((data.fallbackRate || 0) * 100).toFixed(1)}%`;
+  // 🔥 säljmagi
+  const estimatedBookings = data.bookingIntentCount || 0;
+  const missed = Math.round((data.totalMessages || 0) * data.fallbackRate);
+  const timeSaved = Math.round((data.totalMessages || 0) * 2); // 2 min/chat
 
   return (
     <div style={styles.page}>
       <div style={styles.container}>
-        <h1 style={styles.title}>Dashboard – {data.company}</h1>
-        <p style={styles.meta}>Live-data från chatboten</p>
+        <h1 style={styles.title}>📊 AI Dashboard</h1>
+        <p style={styles.subtitle}>
+          Så här presterar din chatbot just nu
+        </p>
 
+        {/* 🔥 KPI SECTION */}
         <div style={styles.grid}>
-          <StatCard label="Totala meddelanden" value={data.totalMessages || 0} />
           <StatCard
-            label="Bokningsintentioner"
-            value={data.bookingIntentCount || 0}
+            label="Potentiella bokningar"
+            value={`🔥 ${estimatedBookings}`}
+            sub="kunder redo att boka"
           />
           <StatCard
-            label="Fallback-rate"
-            value={fallbackPercent}
+            label="Konversationer"
+            value={`💬 ${data.totalMessages}`}
+            sub="totalt antal chats"
           />
           <StatCard
-            label="Toppfrågor"
-            value={data.topQuestions?.length || 0}
+            label="Missade möjligheter"
+            value={`⚠️ ${missed}`}
+            sub={`${fallbackPercent}% fallback`}
+          />
+          <StatCard
+            label="Sparad tid"
+            value={`⏱️ ${timeSaved} min`}
+            sub="automatiserad support"
           />
         </div>
 
+        {/* 🧠 INSIGHTS */}
         <div style={styles.section}>
-          <h2 style={styles.sectionTitle}>Vanligaste frågor</h2>
+          <h2 style={styles.sectionTitle}>🧠 Insights</h2>
+
+          <ul style={styles.list}>
+            <li>
+              🔥 {estimatedBookings} personer visade bokningsintresse
+            </li>
+            <li>
+              💬 Vanligaste frågan:{" "}
+              <strong>
+                {data.topQuestions?.[0]?.question || "Ingen data ännu"}
+              </strong>
+            </li>
+            <li>
+              ⚠️ {fallbackPercent}% av konversationerna kunde förbättras
+            </li>
+          </ul>
+        </div>
+
+        {/* ❓ TOP QUESTIONS */}
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>❓ Vanligaste frågor</h2>
+
           {data.topQuestions?.length ? (
             <ul style={styles.list}>
-              {data.topQuestions.map((item, index) => (
-                <li key={index} style={styles.listItem}>
-                  {item.question} <strong>({item.count})</strong>
+              {data.topQuestions.map((q, i) => (
+                <li key={i} style={styles.listItem}>
+                  {q.question} <strong>({q.count})</strong>
                 </li>
               ))}
             </ul>
           ) : (
-            <p>Inga frågor hittades ännu.</p>
+            <p>Inga frågor ännu</p>
           )}
-        </div>
-
-        <div style={styles.section}>
-          <h2 style={styles.sectionTitle}>Snabb sammanfattning</h2>
-          <ul style={styles.list}>
-            <li style={styles.listItem}>
-              Chatboten har tagit emot <strong>{data.totalMessages || 0}</strong>{" "}
-              meddelanden.
-            </li>
-            <li style={styles.listItem}>
-              <strong>{data.bookingIntentCount || 0}</strong> meddelanden har
-              identifierats som bokningsintentioner.
-            </li>
-            <li style={styles.listItem}>
-              Fallback-rate ligger på <strong>{fallbackPercent}</strong>.
-            </li>
-          </ul>
         </div>
       </div>
     </div>
@@ -133,60 +123,62 @@ export default function DashboardPage() {
 const styles = {
   page: {
     minHeight: "100vh",
-    background: "#f7f7f8",
-    padding: "32px 16px",
-    color: "#111827",
+    background: "#f5f7fb",
+    padding: "40px 20px",
+    fontFamily: "system-ui",
   },
   container: {
     maxWidth: "1100px",
     margin: "0 auto",
   },
   title: {
-    fontSize: "32px",
+    fontSize: "36px",
     marginBottom: "8px",
   },
-  meta: {
+  subtitle: {
     color: "#6b7280",
-    marginBottom: "24px",
+    marginBottom: "30px",
   },
   grid: {
     display: "grid",
     gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
     gap: "16px",
-    marginBottom: "24px",
+    marginBottom: "30px",
   },
   card: {
     background: "white",
-    borderRadius: "14px",
+    borderRadius: "16px",
     padding: "20px",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
+  },
+  cardValue: {
+    fontSize: "32px",
+    fontWeight: "700",
   },
   cardLabel: {
     fontSize: "14px",
     color: "#6b7280",
-    marginBottom: "8px",
+    marginTop: "6px",
   },
-  cardValue: {
-    fontSize: "30px",
-    fontWeight: "700",
+  cardSub: {
+    fontSize: "12px",
+    color: "#9ca3af",
+    marginTop: "4px",
   },
   section: {
     background: "white",
-    borderRadius: "14px",
+    borderRadius: "16px",
     padding: "20px",
-    boxShadow: "0 6px 20px rgba(0,0,0,0.06)",
     marginBottom: "20px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
   },
   sectionTitle: {
-    marginTop: 0,
-    marginBottom: "14px",
+    marginBottom: "12px",
   },
   list: {
-    margin: 0,
     paddingLeft: "20px",
   },
   listItem: {
-    marginBottom: "10px",
-    lineHeight: 1.5,
+    marginBottom: "8px",
   },
 };

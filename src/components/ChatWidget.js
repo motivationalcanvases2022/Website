@@ -1,15 +1,30 @@
 import { useEffect, useRef, useState } from "react";
 import { getCompanyData } from "../data/companyLoader";
 
-const API_URL =
+const API_BASE =
   window.location.hostname === "localhost"
-    ? "http://localhost:3001/api/chat"
-    : "https://chatbot-ondf.onrender.com/api/chat";
+    ? "http://localhost:3001"
+    : "https://chatbot-ondf.onrender.com";
+
+const CHAT_API_URL = `${API_BASE}/api/chat`;
+const BOOKING_API_URL = `${API_BASE}/api/booking-request`;
+
+function isBookingMessage(text = "") {
+  const value = text.toLowerCase();
+  return (
+    value.includes("boka") ||
+    value.includes("bokning") ||
+    value.includes("tid") ||
+    value.includes("möte") ||
+    value.includes("offert")
+  );
+}
 
 export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [bookingMode, setBookingMode] = useState(false);
 
   const messagesEndRef = useRef(null);
   const companyData = getCompanyData();
@@ -25,6 +40,7 @@ export default function ChatWidget() {
 
   useEffect(() => {
     setMessages([{ role: "bot", text: currentConfig.welcome }]);
+    setBookingMode(false);
   }, [company, currentConfig.welcome]);
 
   useEffect(() => {
@@ -41,13 +57,79 @@ export default function ChatWidget() {
     setMessages(nextMessages);
     setInput("");
 
+    // 1. Om användaren triggar bokning första gången
+    if (!bookingMode && isBookingMessage(trimmed)) {
+      setMessages([
+        ...nextMessages,
+        {
+          role: "bot",
+          text:
+            "Toppen! Skriv ditt namn, telefon eller email, vad du vill ha hjälp med och gärna önskad tid i ett meddelande.",
+        },
+      ]);
+
+      setBookingMode(true);
+      return;
+    }
+
+    // 2. Om vi redan är i booking mode ska nästa meddelande sparas som bokningsförfrågan
+    if (bookingMode) {
+      try {
+        const res = await fetch(BOOKING_API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            company,
+            name: trimmed,
+            contact: trimmed,
+            message: trimmed,
+            requested_time: "",
+          }),
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || "Kunde inte skicka bokningsförfrågan.");
+        }
+
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "bot",
+            text:
+              "Tack! Din bokningsförfrågan är skickad. Vi kontaktar dig så snart som möjligt.",
+          },
+        ]);
+
+        setBookingMode(false);
+        return;
+      } catch (err) {
+        console.error("Booking request error:", err);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "bot",
+            text:
+              err.message ||
+              "Det gick inte att skicka bokningsförfrågan just nu.",
+          },
+        ]);
+        setBookingMode(false);
+        return;
+      }
+    }
+
+    // 3. Vanlig chat till OpenAI
     const historyForApi = nextMessages.map((m) => ({
       role: m.role === "bot" ? "assistant" : "user",
       content: m.text,
     }));
 
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(CHAT_API_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -55,7 +137,7 @@ export default function ChatWidget() {
         body: JSON.stringify({
           message: trimmed,
           history: historyForApi,
-          company: company,
+          company,
         }),
       });
 
