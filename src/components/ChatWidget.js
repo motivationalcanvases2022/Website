@@ -24,7 +24,15 @@ export default function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+
   const [bookingMode, setBookingMode] = useState(false);
+  const [bookingStep, setBookingStep] = useState(null);
+  const [bookingData, setBookingData] = useState({
+    name: "",
+    contact: "",
+    message: "",
+    requested_time: "",
+  });
 
   const messagesEndRef = useRef(null);
   const companyData = getCompanyData();
@@ -41,11 +49,29 @@ export default function ChatWidget() {
   useEffect(() => {
     setMessages([{ role: "bot", text: currentConfig.welcome }]);
     setBookingMode(false);
+    setBookingStep(null);
+    setBookingData({
+      name: "",
+      contact: "",
+      message: "",
+      requested_time: "",
+    });
   }, [company, currentConfig.welcome]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const resetBooking = () => {
+    setBookingMode(false);
+    setBookingStep(null);
+    setBookingData({
+      name: "",
+      contact: "",
+      message: "",
+      requested_time: "",
+    });
+  };
 
   const sendMessage = async () => {
     const trimmed = input.trim();
@@ -57,23 +83,69 @@ export default function ChatWidget() {
     setMessages(nextMessages);
     setInput("");
 
-    // 1. Om användaren triggar bokning första gången
+    // Starta bokningsflöde
     if (!bookingMode && isBookingMessage(trimmed)) {
       setMessages([
         ...nextMessages,
         {
           role: "bot",
-          text:
-            "Toppen! Skriv ditt namn, telefon eller email, vad du vill ha hjälp med och gärna önskad tid i ett meddelande.",
+          text: "Toppen! Vad heter du?",
         },
       ]);
-
       setBookingMode(true);
+      setBookingStep("name");
       return;
     }
 
-    // 2. Om vi redan är i booking mode ska nästa meddelande sparas som bokningsförfrågan
-    if (bookingMode) {
+    // Bokningssteg 1: namn
+    if (bookingMode && bookingStep === "name") {
+      setBookingData((prev) => ({ ...prev, name: trimmed }));
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "bot",
+          text: "Tack! Vad har du för telefonnummer eller email?",
+        },
+      ]);
+      setBookingStep("contact");
+      return;
+    }
+
+    // Bokningssteg 2: kontakt
+    if (bookingMode && bookingStep === "contact") {
+      setBookingData((prev) => ({ ...prev, contact: trimmed }));
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "bot",
+          text: "Perfekt. Vad vill du ha hjälp med?",
+        },
+      ]);
+      setBookingStep("message");
+      return;
+    }
+
+    // Bokningssteg 3: vad kunden vill ha hjälp med
+    if (bookingMode && bookingStep === "message") {
+      setBookingData((prev) => ({ ...prev, message: trimmed }));
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "bot",
+          text: "Bra. Vilken dag eller tid passar dig bäst?",
+        },
+      ]);
+      setBookingStep("requested_time");
+      return;
+    }
+
+    // Bokningssteg 4: önskad tid -> skicka till backend
+    if (bookingMode && bookingStep === "requested_time") {
+      const finalBookingData = {
+        ...bookingData,
+        requested_time: trimmed,
+      };
+
       try {
         const res = await fetch(BOOKING_API_URL, {
           method: "POST",
@@ -82,10 +154,10 @@ export default function ChatWidget() {
           },
           body: JSON.stringify({
             company,
-            name: trimmed,
-            contact: trimmed,
-            message: trimmed,
-            requested_time: "",
+            name: finalBookingData.name,
+            contact: finalBookingData.contact,
+            message: finalBookingData.message,
+            requested_time: finalBookingData.requested_time,
           }),
         });
 
@@ -99,12 +171,11 @@ export default function ChatWidget() {
           ...prev,
           {
             role: "bot",
-            text:
-              "Tack! Din bokningsförfrågan är skickad. Vi kontaktar dig så snart som möjligt.",
+            text: "Tack! Din bokningsförfrågan är skickad. Vi kontaktar dig så snart som möjligt.",
           },
         ]);
 
-        setBookingMode(false);
+        resetBooking();
         return;
       } catch (err) {
         console.error("Booking request error:", err);
@@ -117,12 +188,12 @@ export default function ChatWidget() {
               "Det gick inte att skicka bokningsförfrågan just nu.",
           },
         ]);
-        setBookingMode(false);
+        resetBooking();
         return;
       }
     }
 
-    // 3. Vanlig chat till OpenAI
+    // Vanlig AI-chat
     const historyForApi = nextMessages.map((m) => ({
       role: m.role === "bot" ? "assistant" : "user",
       content: m.text,
