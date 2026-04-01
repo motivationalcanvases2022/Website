@@ -132,7 +132,7 @@ export default function ChatWidget() {
         ...prev,
         {
           role: "bot",
-          text: "Bra. Vilken dag eller tid passar dig bäst?",
+          text: "Skriv önskad tid i formatet YYYY-MM-DD HH:mm, till exempel 2026-04-05 13:00",
         },
       ]);
       setBookingStep("requested_time");
