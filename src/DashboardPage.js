@@ -148,20 +148,27 @@ export default function DashboardPage() {
                     </span>
                   </div>
 
-                  <div style={styles.bookingRow}>
-                    <span style={styles.bookingLabel}>Kontakt:</span>
-                    <span>{booking.contact || "-"}</span>
-                  </div>
+               <div style={styles.bookingRow}>
+                 <span style={styles.bookingLabel}>Kontakt:</span>
+                 <span>{booking.contact || "-"}</span>
+               </div>
 
-                  <div style={styles.bookingRow}>
-                    <span style={styles.bookingLabel}>Tjänst / behov:</span>
-                    <span>{booking.message || "-"}</span>
-                  </div>
+               <div style={styles.bookingRow}>
+                 <span style={styles.bookingLabel}>Tjänst / behov:</span>
+                 <span>{booking.message || "-"}</span>
+               </div>
 
-                  <div style={styles.bookingRow}>
-                    <span style={styles.bookingLabel}>Önskad tid:</span>
-                    <span>{booking.requested_time || "-"}</span>
-                  </div>
+               <div style={styles.bookingRow}>
+                 <span style={styles.bookingLabel}>Önskad tid:</span>
+                 <span>{booking.requested_time || "-"}</span>
+               </div>
+
+               {booking.address && booking.address.trim() !== "" && (
+                 <div style={styles.bookingRow}>
+                   <span style={styles.bookingLabel}>Adress:</span>
+                   <span>{booking.address}</span>
+                 </div>
+               )}
                 </div>
               ))}
             </div>
