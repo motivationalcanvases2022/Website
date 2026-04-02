@@ -32,6 +32,7 @@ export default function ChatWidget() {
     contact: "",
     message: "",
     requested_time: "",
+    address: "",
   });
 
   const messagesEndRef = useRef(null);
@@ -139,11 +140,103 @@ export default function ChatWidget() {
       return;
     }
 
-    // Bokningssteg 4: önskad tid -> skicka till backend
+    // Bokningssteg 4: efter tid fråga om adress
     if (bookingMode && bookingStep === "requested_time") {
+      setBookingData((prev) => ({ ...prev, requested_time: trimmed }));
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "bot",
+          text: "Vill du även ange adress? Svara ja eller nej.",
+        },
+      ]);
+      setBookingStep("address_query");
+      return;
+    }
+
+    // Nytt bokningssteg: fråga om adress
+    if (bookingMode && bookingStep === "address_query") {
+      const answer = trimmed.toLowerCase();
+      if (answer === "ja" || answer === "japp" || answer === "yes") {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "bot",
+            text: "Ange din adress, tack.",
+          },
+        ]);
+        setBookingStep("address");
+        return;
+      } else if (answer === "nej" || answer === "no") {
+        // Skicka bokningen direkt utan adress
+        const finalBookingData = {
+          ...bookingData,
+        };
+
+        try {
+          const res = await fetch(BOOKING_API_URL, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              company,
+              name: finalBookingData.name,
+              contact: finalBookingData.contact,
+              message: finalBookingData.message,
+              requested_time: finalBookingData.requested_time,
+            }),
+          });
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            throw new Error(data.error || "Kunde inte skicka bokningsförfrågan.");
+          }
+
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "bot",
+              text: "Tack! Din bokningsförfrågan är skickad. Vi kontaktar dig så snart som möjligt.",
+            },
+          ]);
+
+          resetBooking();
+          return;
+        } catch (err) {
+          console.error("Booking request error:", err);
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "bot",
+              text:
+                err.message ||
+                "Det gick inte att skicka bokningsförfrågan just nu.",
+            },
+          ]);
+          resetBooking();
+          return;
+        }
+      } else {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: "bot",
+            text: "Jag förstod inte. Svara med ja eller nej, tack.",
+          },
+        ]);
+        return;
+      }
+    }
+
+    // Nytt bokningssteg: samla in adress
+    if (bookingMode && bookingStep === "address") {
+      setBookingData((prev) => ({ ...prev, address: trimmed }));
+
       const finalBookingData = {
         ...bookingData,
-        requested_time: trimmed,
+        address: trimmed,
       };
 
       try {
@@ -158,6 +251,7 @@ export default function ChatWidget() {
             contact: finalBookingData.contact,
             message: finalBookingData.message,
             requested_time: finalBookingData.requested_time,
+            address: finalBookingData.address,
           }),
         });
 
