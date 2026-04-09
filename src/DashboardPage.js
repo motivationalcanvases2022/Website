@@ -29,6 +29,7 @@ export default function DashboardPage() {
         setError("");
 
         const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
+        console.log("CHATBOT API BASE:", apiBase);
 
         const [summaryRes, bookingsRes] = await Promise.all([
           fetch(`${apiBase}/api/dashboard-summary?company=${company}`, {
@@ -166,9 +167,19 @@ export default function DashboardPage() {
                {booking.address && booking.address.trim() !== "" && (
                  <div style={styles.bookingRow}>
                    <span style={styles.bookingLabel}>Adress:</span>
-                   <span>{booking.address}</span>
+                   <a
+                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                       booking.address
+                     )}`}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     style={{ color: "#2563eb", textDecoration: "underline" }}
+                   >
+                     {booking.address}
+                   </a>
                  </div>
                )}
+
                 </div>
               ))}
             </div>
