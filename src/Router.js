@@ -8,13 +8,8 @@ export default function Router() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Publik hemsida */}
         <Route path="/" element={<App />} />
-
-        {/* Login */}
         <Route path="/dashboard/login" element={<LoginPage />} />
-
-        {/* Skyddad dashboard */}
         <Route
           path="/dashboard"
           element={

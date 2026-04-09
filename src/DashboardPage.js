@@ -1,9 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-
-function getCompanyFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get("company") || "kmcgroup";
-}
+import { useEffect, useState } from "react";
+import { supabase } from "./supabaseClient";
 
 function StatCard({ label, value, sub }) {
   return (
@@ -16,7 +12,6 @@ function StatCard({ label, value, sub }) {
 }
 
 export default function DashboardPage() {
-  const company = useMemo(() => getCompanyFromUrl(), []);
   const [data, setData] = useState(null);
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,23 +24,53 @@ export default function DashboardPage() {
         setError("");
 
         const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
-        console.log("CHATBOT API BASE:", apiBase);
+
+        if (!apiBase) {
+          throw new Error("REACT_APP_CHATBOT_API_URL saknas i Website/.env");
+        }
+
+        const {
+          data: { session },
+          error: sessionError,
+        } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          throw new Error("Kunde inte läsa session.");
+        }
+
+        if (!session?.access_token) {
+          throw new Error("Ingen aktiv inloggning hittades.");
+        }
+
+        const headers = {
+          Authorization: `Bearer ${session.access_token}`,
+        };
 
         const [summaryRes, bookingsRes] = await Promise.all([
-          fetch(`${apiBase}/api/dashboard-summary?company=${company}`, {
+          fetch(`${apiBase}/api/dashboard-summary`, {
+            method: "GET",
+            headers,
             cache: "no-store",
           }),
-          fetch(`${apiBase}/api/booking-requests?company=${company}`, {
+          fetch(`${apiBase}/api/booking-requests`, {
+            method: "GET",
+            headers,
             cache: "no-store",
           }),
         ]);
 
         if (!summaryRes.ok) {
-          throw new Error("Kunde inte läsa dashboard summary.");
+          const raw = await summaryRes.text();
+          throw new Error(
+            `Kunde inte läsa dashboard summary. Status: ${summaryRes.status}. ${raw}`
+          );
         }
 
         if (!bookingsRes.ok) {
-          throw new Error("Kunde inte läsa bokningsförfrågningar.");
+          const raw = await bookingsRes.text();
+          throw new Error(
+            `Kunde inte läsa bokningsförfrågningar. Status: ${bookingsRes.status}. ${raw}`
+          );
         }
 
         const summaryJson = await summaryRes.json();
@@ -62,7 +87,12 @@ export default function DashboardPage() {
     }
 
     loadData();
-  }, [company]);
+  }, []);
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    window.location.href = "/dashboard/login";
+  }
 
   if (loading) return <div style={styles.page}>Laddar...</div>;
   if (error) return <div style={styles.page}>Fel: {error}</div>;
@@ -76,8 +106,16 @@ export default function DashboardPage() {
   return (
     <div style={styles.page}>
       <div style={styles.container}>
-        <h1 style={styles.title}>📊 AI Dashboard</h1>
-        <p style={styles.subtitle}>Så här presterar din chatbot just nu</p>
+        <div style={styles.topBar}>
+          <div>
+            <h1 style={styles.title}>📊 AI Dashboard</h1>
+            <p style={styles.subtitle}>Så här presterar din chatbot just nu</p>
+          </div>
+
+          <button onClick={handleLogout} style={styles.logoutButton}>
+            Logga ut
+          </button>
+        </div>
 
         <div style={styles.grid}>
           <StatCard
@@ -149,37 +187,36 @@ export default function DashboardPage() {
                     </span>
                   </div>
 
-               <div style={styles.bookingRow}>
-                 <span style={styles.bookingLabel}>Kontakt:</span>
-                 <span>{booking.contact || "-"}</span>
-               </div>
+                  <div style={styles.bookingRow}>
+                    <span style={styles.bookingLabel}>Kontakt:</span>
+                    <span>{booking.contact || "-"}</span>
+                  </div>
 
-               <div style={styles.bookingRow}>
-                 <span style={styles.bookingLabel}>Tjänst / behov:</span>
-                 <span>{booking.message || "-"}</span>
-               </div>
+                  <div style={styles.bookingRow}>
+                    <span style={styles.bookingLabel}>Tjänst / behov:</span>
+                    <span>{booking.message || "-"}</span>
+                  </div>
 
-               <div style={styles.bookingRow}>
-                 <span style={styles.bookingLabel}>Önskad tid:</span>
-                 <span>{booking.requested_time || "-"}</span>
-               </div>
+                  <div style={styles.bookingRow}>
+                    <span style={styles.bookingLabel}>Önskad tid:</span>
+                    <span>{booking.requested_time || "-"}</span>
+                  </div>
 
-               {booking.address && booking.address.trim() !== "" && (
-                 <div style={styles.bookingRow}>
-                   <span style={styles.bookingLabel}>Adress:</span>
-                   <a
-                     href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                       booking.address
-                     )}`}
-                     target="_blank"
-                     rel="noopener noreferrer"
-                     style={{ color: "#2563eb", textDecoration: "underline" }}
-                   >
-                     {booking.address}
-                   </a>
-                 </div>
-               )}
-
+                  {booking.address && booking.address.trim() !== "" && (
+                    <div style={styles.bookingRow}>
+                      <span style={styles.bookingLabel}>Adress:</span>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          booking.address
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={styles.mapLink}
+                      >
+                        {booking.address}
+                      </a>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -203,13 +240,30 @@ const styles = {
     maxWidth: "1100px",
     margin: "0 auto",
   },
+  topBar: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    gap: "16px",
+    flexWrap: "wrap",
+    marginBottom: "20px",
+  },
   title: {
     fontSize: "36px",
     marginBottom: "8px",
   },
   subtitle: {
     color: "#6b7280",
-    marginBottom: "30px",
+    marginBottom: "0",
+  },
+  logoutButton: {
+    background: "#111827",
+    color: "#fff",
+    border: "none",
+    borderRadius: "10px",
+    padding: "10px 16px",
+    cursor: "pointer",
+    fontWeight: "600",
   },
   grid: {
     display: "grid",
@@ -282,5 +336,9 @@ const styles = {
   bookingLabel: {
     fontWeight: "600",
     marginRight: "6px",
+  },
+  mapLink: {
+    color: "#2563eb",
+    textDecoration: "underline",
   },
 };
