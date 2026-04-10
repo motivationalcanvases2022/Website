@@ -31,7 +31,12 @@ export default function DashboardPage() {
 
         const {
           data: { session },
+          error: sessionError,
         } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          throw new Error("Kunde inte läsa session.");
+        }
 
         if (!session?.access_token) {
           throw new Error("Ingen aktiv inloggning hittades.");
@@ -136,6 +141,91 @@ export default function DashboardPage() {
             sub="automatiserad support"
           />
         </div>
+
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>🧠 Insights</h2>
+
+          <ul style={styles.list}>
+            <li>🔥 {estimatedBookings} personer visade bokningsintresse</li>
+            <li>
+              💬 Vanligaste frågan:{" "}
+              <strong>
+                {data.topQuestions?.[0]?.question || "Ingen data ännu"}
+              </strong>
+            </li>
+            <li>⚠️ {fallbackPercent}% av konversationerna kunde förbättras</li>
+          </ul>
+        </div>
+
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>❓ Vanligaste frågor</h2>
+
+          {data.topQuestions?.length ? (
+            <ul style={styles.list}>
+              {data.topQuestions.map((q, i) => (
+                <li key={i} style={styles.listItem}>
+                  {q.question} <strong>({q.count})</strong>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p>Inga frågor ännu</p>
+          )}
+        </div>
+
+        <div style={styles.section}>
+          <h2 style={styles.sectionTitle}>📩 Bokningsförfrågningar</h2>
+
+          {bookings.length ? (
+            <div style={styles.bookingList}>
+              {bookings.map((booking) => (
+                <div key={booking.id} style={styles.bookingCard}>
+                  <div style={styles.bookingHeader}>
+                    <strong>{booking.name || "Ingen angiven"}</strong>
+                    <span style={styles.bookingDate}>
+                      {booking.created_at
+                        ? new Date(booking.created_at).toLocaleString()
+                        : ""}
+                    </span>
+                  </div>
+
+                  <div style={styles.bookingRow}>
+                    <span style={styles.bookingLabel}>Kontakt:</span>
+                    <span>{booking.contact || "-"}</span>
+                  </div>
+
+                  <div style={styles.bookingRow}>
+                    <span style={styles.bookingLabel}>Tjänst / behov:</span>
+                    <span>{booking.message || "-"}</span>
+                  </div>
+
+                  <div style={styles.bookingRow}>
+                    <span style={styles.bookingLabel}>Önskad tid:</span>
+                    <span>{booking.requested_time || "-"}</span>
+                  </div>
+
+                  {booking.address && booking.address.trim() !== "" && (
+                    <div style={styles.bookingRow}>
+                      <span style={styles.bookingLabel}>Adress:</span>
+                      <a
+                        href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+                          booking.address
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={styles.mapLink}
+                      >
+                        {booking.address}
+                      </a>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>Inga bokningsförfrågningar ännu.</p>
+          )}
+        </div>
       </div>
     </div>
   );
@@ -202,5 +292,55 @@ const styles = {
     fontSize: "12px",
     color: "#9ca3af",
     marginTop: "4px",
+  },
+  section: {
+    background: "white",
+    borderRadius: "16px",
+    padding: "20px",
+    marginBottom: "20px",
+    boxShadow: "0 10px 25px rgba(0,0,0,0.05)",
+  },
+  sectionTitle: {
+    marginBottom: "12px",
+  },
+  list: {
+    paddingLeft: "20px",
+  },
+  listItem: {
+    marginBottom: "8px",
+  },
+  bookingList: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "14px",
+  },
+  bookingCard: {
+    border: "1px solid #e5e7eb",
+    borderRadius: "14px",
+    padding: "16px",
+    background: "#fafafa",
+  },
+  bookingHeader: {
+    display: "flex",
+    justifyContent: "space-between",
+    gap: "12px",
+    marginBottom: "12px",
+    flexWrap: "wrap",
+  },
+  bookingDate: {
+    fontSize: "13px",
+    color: "#6b7280",
+  },
+  bookingRow: {
+    marginBottom: "8px",
+    lineHeight: 1.5,
+  },
+  bookingLabel: {
+    fontWeight: "600",
+    marginRight: "6px",
+  },
+  mapLink: {
+    color: "#2563eb",
+    textDecoration: "underline",
   },
 };
