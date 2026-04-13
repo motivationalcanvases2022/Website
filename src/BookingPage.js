@@ -13,38 +13,41 @@ export default function BookingPage() {
     address: "",
   });
 
-  useEffect(() => {
-    async function loadSlots() {
-      try {
-        setLoading(true);
-        setError("");
+useEffect(() => {
+  async function loadSlots() {
+    try {
+      setLoading(true);
+      setError("");
 
-        const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
+      const today = new Date();
+      const from = today.toISOString().split("T")[0];
 
-        if (!apiBase) {
-          throw new Error("REACT_APP_CHATBOT_API_URL saknas i .env");
-        }
+      const future = new Date();
+      future.setDate(today.getDate() + 10);
+      const to = future.toISOString().split("T")[0];
 
-        const res = await fetch(
-          `${apiBase}/api/available-slots?company=kmcgroup&from=2026-04-14&to=2026-04-24`
-        );
+      const url = `https://chatbot-ondf.onrender.com/api/available-slots?company=kmcgroup&from=${from}&to=${to}`;
+      console.log("FETCH URL:", url);
 
-        if (!res.ok) {
-          const raw = await res.text();
-          throw new Error(raw || "Kunde inte hämta lediga tider");
-        }
+      const res = await fetch(url);
 
-        const data = await res.json();
-        setSlots(data.slots || []);
-      } catch (err) {
-        setError(err.message || "Något gick fel");
-      } finally {
-        setLoading(false);
+      if (!res.ok) {
+        const raw = await res.text();
+        throw new Error(raw || "Kunde inte hämta lediga tider");
       }
-    }
 
-    loadSlots();
-  }, []);
+      const data = await res.json();
+      setSlots(data.slots || []);
+    } catch (err) {
+      console.error("BOOKING LOAD ERROR:", err);
+      setError(err.message || "Något gick fel");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  loadSlots();
+}, []);
 
   const groupedSlots = useMemo(() => {
     const groups = {};
