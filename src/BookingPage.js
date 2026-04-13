@@ -26,7 +26,7 @@ export default function BookingPage() {
         }
 
         const res = await fetch(
-          `${apiBase}/api/available-slots?company=kmcgroup&from=2026-04-14&to=2026-04-20`
+          `${apiBase}/api/available-slots?company=kmcgroup&from=2026-04-14&to=2026-04-24`
         );
 
         if (!res.ok) {
