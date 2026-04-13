@@ -1,0 +1,48 @@
+{
+  "theme": {
+    "primary": "#ff4d4d",
+    "secondary": "#1a1a1a",
+    "background": "#ffffff",
+    "text": "#111111"
+  },
+  "companyName": "Nordeberg Entrepenad AB",
+  "industry": "Mark, bygg och stängsel montage",
+  "city": "Ekerö",
+  "phone": "0707747834",
+  "email": "simon.nordeberg@icloud.com",
+  "bookingUrl": "",
+  "address": "23A Gräsåkersvägen",
+  "openingHours": "Öppet dygnet runt",
+  "heroTitle": "Nordebergs Entrepenad AB - Din partner inom mark, bygg och stängselmontage",
+  "heroText": "Vi på Nordebergs Entrepenad AB erbjuder professionella tjänster inom markarbete, VA, stängselmontage och PE-svetsning. Med vår moderna utrustning och erfarna personal kan vi garantera högsta kvalitet och säkerhet i alla våra projekt.",
+  "aboutText": "Beläget i Ekerö, är Nordebergs Entrepenad AB specialiserade på att leverera skräddarsydda lösningar för mark- och byggprojekt. Vi strävar efter att överträffa våra kunders förväntningar genom att erbjuda pålitliga och effektiva tjänster. Kontakta oss för att få hjälp med ditt nästa projekt, oavsett om det gäller stängselmontage eller PE-svetsning.",
+  "services": [
+    {
+      "title": "PE-svetsning",
+      "description": "Vi utför professionell PE-svetsning med fokus på kvalitet och hållbarhet. Våra certifierade svetsare säkerställer att alla arbeten uppfyller gällande standarder."
+    },
+    {
+      "title": "Markjobb",
+      "description": "Våra markarbeten omfattar allt från grundläggning till dränering. Vi anpassar våra tjänster efter dina specifika behov för att garantera bästa resultat."
+    },
+    {
+      "title": "Stängselmontage",
+      "description": "Vi erbjuder komplett stängselmontage med olika typer av säkerhetsstängsel. Vårt mål är att skydda din egendom med stil och funktion."
+    }
+  ],
+  "faq": [
+    {
+      "question": "Vad jobbar ni med?",
+      "answer": "Vi arbetar med mark, VA, stängselmontage och PE-svetsning."
+    },
+    {
+      "question": "Hur kan jag boka en tid?",
+      "answer": "Du kan boka tid genom att ringa oss på 0707747834 eller skicka ett mail till simon.nordeberg@icloud.com."
+    }
+  ],
+  "chatbot": {
+    "name": "Nordeberg Entrepenad AB Assistent",
+    "welcome": "Hej! Jag är Nordeberg Entrepenad AB digitala assistent. Hur kan jag hjälpa dig idag?",
+    "color": "#ff4d4d"
+  }
+}

@@ -3,13 +3,15 @@ import gym from "./companies/gym.json";
 import restaurant from "./companies/restaurant.json";
 import electrician from "./companies/electrician.json";
 import kmcgroup from "./companies/kmcgroup.json";
+import nordebergentrepenadab from "./companies/nordebergentrepenadab.json";
 
 const companies = {
   dentist,
   gym,
   restaurant,
   electrician,
-  kmcgroup
+  kmcgroup,
+  nordebergentrepenadab
 };
 
 export function getCompanyData() {
