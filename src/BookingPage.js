@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 
 export default function BookingPage() {
@@ -108,13 +109,17 @@ export default function BookingPage() {
     }
   }
 
-  return (
-    <div style={styles.page}>
-      <div style={styles.container}>
-        <h1 style={styles.title}>Boka tid</h1>
-        <p style={styles.subtitle}>
-          Välj en ledig tid och fyll i dina uppgifter.
-        </p>
+    return (
+      <div style={styles.page}>
+        <div style={styles.container}>
+          <Link to="/" style={styles.backLink}>
+            ← Tillbaka till hemsidan
+          </Link>
+
+          <h1 style={styles.title}>Boka tid</h1>
+          <p style={styles.subtitle}>
+            Välj en ledig tid och fyll i dina uppgifter.
+          </p>
 
         {loading && <p>Laddar lediga tider...</p>}
         {error && <p style={styles.error}>{error}</p>}
@@ -222,6 +227,17 @@ const styles = {
     padding: "40px 20px",
     fontFamily: "system-ui, sans-serif",
   },
+    backLink: {
+      display: "inline-block",
+      marginBottom: "20px",
+      textDecoration: "none",
+      color: "#111827",
+      fontWeight: "600",
+      padding: "10px 14px",
+      border: "1px solid #d1d5db",
+      borderRadius: "10px",
+      background: "#fff",
+    },
   container: {
     maxWidth: "1200px",
     margin: "0 auto",
