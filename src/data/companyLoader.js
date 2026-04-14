@@ -1,22 +1,39 @@
-import dentist from "./companies/dentist.json";
-import gym from "./companies/gym.json";
-import restaurant from "./companies/restaurant.json";
-import electrician from "./companies/electrician.json";
-import kmcgroup from "./companies/kmcgroup.json";
-import nordebergentrepenadab from "./companies/nordebergentrepenadab.json";
+function normalizeCompanyKey(value) {
+  return String(value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "-")
+    .replace(/[^a-z0-9\-]/g, "");
+}
 
-const companies = {
-  dentist,
-  gym,
-  restaurant,
-  electrician,
-  kmcgroup,
-  nordebergentrepenadab
-};
+function loadAllCompanies() {
+  const context = require.context("./companies", false, /\.json$/);
+  const companies = {};
+
+  context.keys().forEach((key) => {
+    const fileName = key.replace("./", "").replace(".json", "");
+    const normalizedKey = normalizeCompanyKey(fileName);
+    const fileData = context(key);
+
+    companies[normalizedKey] = fileData.default || fileData;
+  });
+
+  return companies;
+}
+
+const companies = loadAllCompanies();
+const fallbackCompany = companies.kmcgroup || Object.values(companies)[0] || null;
+
+export function getCompanyKeyFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return normalizeCompanyKey(params.get("company") || "kmcgroup");
+}
 
 export function getCompanyData() {
-  const params = new URLSearchParams(window.location.search);
-  const companyName = params.get("company") || "kmcgroup";
+  const companyKey = getCompanyKeyFromUrl();
+  return companies[companyKey] || fallbackCompany;
+}
 
-  return companies[companyName] || kmcgroup;
+export function getAvailableCompanyKeys() {
+  return Object.keys(companies);
 }

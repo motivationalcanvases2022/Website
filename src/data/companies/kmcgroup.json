@@ -52,5 +52,8 @@
     "name": "KmcGroup Assistent",
     "welcome": "Hej! Jag är KmcGroup digitala assistent. Hur kan jag hjälpa dig idag?",
     "color": "#ff4d4d"
+  },
+  "booking": {
+    "mode": "approval"
   }
 }

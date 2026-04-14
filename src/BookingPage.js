@@ -71,46 +71,52 @@ useEffect(() => {
     });
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+async function handleSubmit(e) {
+  e.preventDefault();
 
-    if (!selectedSlot) {
-      alert("Välj en tid först");
-      return;
-    }
-
-    try {
-      const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
-
-      const requestedTime = `${selectedSlot.date} ${selectedSlot.time}`;
-
-      const res = await fetch(`${apiBase}/api/booking-request`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          company: "kmcgroup",
-          name: form.name,
-          contact: form.contact,
-          message: form.message,
-          address: form.address,
-          requested_time: requestedTime,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error || "Kunde inte skapa bokning");
-      }
-
-      alert("Bokning skapad!");
-      window.location.reload();
-    } catch (err) {
-      alert(err.message || "Något gick fel");
-    }
+  if (!selectedSlot) {
+    alert("Välj en tid först");
+    return;
   }
+
+  try {
+    const requestedTime = `${selectedSlot.date} ${selectedSlot.time}`;
+
+    const res = await fetch("https://chatbot-ondf.onrender.com/api/booking-request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        company: "kmcgroup",
+        name: form.name,
+        contact: form.contact,
+        message: form.message,
+        address: form.address,
+        requested_time: requestedTime,
+      }),
+    });
+
+    const raw = await res.text();
+    console.log("BOOKING RAW RESPONSE:", raw);
+
+    let data;
+    try {
+      data = JSON.parse(raw);
+    } catch {
+      throw new Error(`Backend returned non-JSON: ${raw.slice(0, 200)}`);
+    }
+
+    if (!res.ok) {
+      throw new Error(data.error || "Kunde inte skapa bokning");
+    }
+
+    alert("Bokning skapad!");
+    window.location.reload();
+  } catch (err) {
+    alert(err.message || "Något gick fel");
+  }
+}
 
     return (
       <div style={styles.page}>

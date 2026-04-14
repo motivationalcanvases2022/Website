@@ -11,11 +11,14 @@ import ChatWidget from "./components/ChatWidget";
 import "./styles/main.css";
 
 const company = getCompanyData();
+const bookingMode = company?.booking?.mode || "direct";
 
 document.documentElement.style.setProperty("--primary", company.theme.primary);
 document.documentElement.style.setProperty("--secondary", company.theme.secondary);
 document.documentElement.style.setProperty("--bg", company.theme.background);
 document.documentElement.style.setProperty("--text", company.theme.text);
+
+console.log("App booking mode:", bookingMode);
 
 export default function App() {
   return (
