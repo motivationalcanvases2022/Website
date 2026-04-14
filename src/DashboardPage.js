@@ -99,14 +99,17 @@ export default function DashboardPage() {
         data: { session },
       } = await supabase.auth.getSession();
 
-      const res = await fetch(`${apiBase}/api/booking-requests/${id}/approve`, {
+      const res = await fetch(`https://chatbot-ondf.onrender.com/api/booking-requests/${id}/approve`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
       });
 
-      const data = await res.json();
+      const raw = await res.text();
+      console.log("APPROVE RAW RESPONSE:", raw);
+
+      const data = JSON.parse(raw);
 
       if (!res.ok) throw new Error(data.error);
 
@@ -125,7 +128,7 @@ export default function DashboardPage() {
         data: { session },
       } = await supabase.auth.getSession();
 
-      const res = await fetch(`${apiBase}/api/booking-requests/${id}/decline`, {
+      const res = await fetch(`https://chatbot-ondf.onrender.com/api/booking-requests/${id}/decline`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${session.access_token}`,
