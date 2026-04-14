@@ -91,6 +91,58 @@ export default function DashboardPage() {
     loadData();
   }, []);
 
+  async function handleApprove(id) {
+    try {
+      const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      const res = await fetch(`${apiBase}/api/booking-requests/${id}/approve`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+
+      alert("Bokning godkänd!");
+      window.location.reload();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  async function handleDecline(id) {
+    try {
+      const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
+
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
+
+      const res = await fetch(`${apiBase}/api/booking-requests/${id}/decline`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.error);
+
+      alert("Bokning nekad!");
+      window.location.reload();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
   async function handleLogout() {
     await supabase.auth.signOut();
     window.location.href = "/dashboard/login";
@@ -229,6 +281,23 @@ export default function DashboardPage() {
                       >
                         {booking.address}
                       </a>
+                    </div>
+                  )}
+                  {booking.status === "pending" && (
+                    <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
+                      <button
+                        onClick={() => handleApprove(booking.id)}
+                        style={{ background: "green", color: "white", padding: "6px 10px", border: "none", borderRadius: "6px" }}
+                      >
+                        Godkänn
+                      </button>
+
+                      <button
+                        onClick={() => handleDecline(booking.id)}
+                        style={{ background: "red", color: "white", padding: "6px 10px", border: "none", borderRadius: "6px" }}
+                      >
+                        Neka
+                      </button>
                     </div>
                   )}
                 </div>
