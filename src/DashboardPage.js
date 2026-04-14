@@ -198,7 +198,7 @@ export default function DashboardPage() {
 
                   <div style={styles.bookingRow}>
                     <span style={styles.bookingLabel}>Status:</span>
-                    <span>{getStatusLabel(booking.status)}</span>
+                    <span>{getStatusLabel(booking.status || "confirmed")}</span>
                   </div>
 
                   <div style={styles.bookingRow}>
