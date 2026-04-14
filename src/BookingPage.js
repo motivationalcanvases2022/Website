@@ -1,8 +1,12 @@
 import { Link } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
+import { getCompanyData } from "./data/companyLoader";
 
 export default function BookingPage() {
   const [slots, setSlots] = useState([]);
+  const company = getCompanyData();
+  const bookingMode = company?.booking?.mode || "direct";
+  const isApprovalMode = bookingMode === "approval";
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -111,7 +115,10 @@ async function handleSubmit(e) {
       throw new Error(data.error || "Kunde inte skapa bokning");
     }
 
-    alert("Bokning skapad!");
+    alert(
+      data.message ||
+        (isApprovalMode ? "Bokningsförfrågan skickad!" : "Bokning skapad!")
+    );
     window.location.reload();
   } catch (err) {
     alert(err.message || "Något gick fel");
@@ -125,9 +132,14 @@ async function handleSubmit(e) {
             ← Tillbaka till hemsidan
           </Link>
 
-          <h1 style={styles.title}>Boka tid</h1>
+          <h1 style={styles.title}>
+            {isApprovalMode ? "Skicka bokningsförfrågan" : "Boka tid"}
+          </h1>
+
           <p style={styles.subtitle}>
-            Välj en ledig tid och fyll i dina uppgifter.
+            {isApprovalMode
+              ? "Föreslå en tid och fyll i dina uppgifter. Vi återkommer efter att förfrågan har granskats."
+              : "Välj en ledig tid och fyll i dina uppgifter."}
           </p>
 
         {loading && <p>Laddar lediga tider...</p>}
@@ -164,12 +176,16 @@ async function handleSubmit(e) {
 
             <div style={styles.formPanel}>
               <div style={styles.formCard}>
-                <h2 style={styles.formTitle}>Din bokning</h2>
+                <h2 style={styles.formTitle}>
+                  {isApprovalMode ? "Din förfrågan" : "Din bokning"}
+                </h2>
 
                 <p style={styles.selectedInfo}>
                   {selectedSlot
-                    ? `Vald tid: ${formatDateLabel(selectedSlot.date)} kl ${selectedSlot.time}`
-                    : "Välj först en tid i schemat."}
+                    ? `${isApprovalMode ? "Önskad tid" : "Vald tid"}: ${formatDateLabel(selectedSlot.date)} kl ${selectedSlot.time}`
+                    : isApprovalMode
+                      ? "Välj en önskad tid i schemat."
+                      : "Välj först en tid i schemat."}
                 </p>
 
                 <form onSubmit={handleSubmit} style={styles.form}>
@@ -195,7 +211,11 @@ async function handleSubmit(e) {
 
                   <textarea
                     style={styles.textarea}
-                    placeholder="Vad behöver du hjälp med?"
+                    placeholder={
+                      isApprovalMode
+                        ? "Beskriv vad du behöver hjälp med"
+                        : "Vad behöver du hjälp med?"
+                    }
                     value={form.message}
                     onChange={(e) =>
                       setForm({ ...form, message: e.target.value })
@@ -217,7 +237,7 @@ async function handleSubmit(e) {
                     style={styles.submitButton}
                     disabled={!selectedSlot}
                   >
-                    Bekräfta bokning
+                    {isApprovalMode ? "Skicka bokningsförfrågan" : "Bekräfta bokning"}
                   </button>
                 </form>
               </div>
