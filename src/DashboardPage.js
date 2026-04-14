@@ -105,6 +105,13 @@ export default function DashboardPage() {
   const missed = Math.round((data.totalMessages || 0) * (data.fallbackRate || 0));
   const timeSaved = Math.round((data.totalMessages || 0) * 2);
 
+  function getStatusLabel(status) {
+    if (status === "pending") return "Väntar";
+    if (status === "confirmed") return "Bekräftad";
+    if (status === "declined") return "Nekad";
+    return "Bekräftad";
+  }
+
   return (
     <div style={styles.page}>
       <div style={styles.container}>
@@ -187,6 +194,11 @@ export default function DashboardPage() {
                         ? new Date(booking.created_at).toLocaleString()
                         : ""}
                     </span>
+                  </div>
+
+                  <div style={styles.bookingRow}>
+                    <span style={styles.bookingLabel}>Status:</span>
+                    <span>{getStatusLabel(booking.status)}</span>
                   </div>
 
                   <div style={styles.bookingRow}>
