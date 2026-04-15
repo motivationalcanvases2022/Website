@@ -5,10 +5,10 @@ export default function Hero() {
 
   const heroStyle = company.heroImage
     ? {
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.55), rgba(15, 23, 42, 0.55)), url(${company.heroImage})`
+        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.58), rgba(15, 23, 42, 0.58)), url(${company.heroImage})`,
       }
     : {
-        background: `linear-gradient(135deg, ${company.theme?.secondary || "#0f172a"} 0%, ${company.theme?.primary || "#2563eb"} 100%)`
+        background: `linear-gradient(135deg, ${company.theme?.secondary || "#0f172a"} 0%, ${company.theme?.primary || "#2563eb"} 100%)`,
       };
 
   return (
@@ -21,8 +21,14 @@ export default function Hero() {
         <h1>{company.heroTitle}</h1>
 
         <div className="hero-text-wrapper">
-      <p className="hero-text">{company.heroSubtitle || company.heroText}</p>
-    </div>
+          <p className="hero-text">{company.heroSubtitle || company.heroText}</p>
+        </div>
+
+        <div className="hero-trust-points">
+          <span>✓ Kostnadsfri offert</span>
+          <span>✓ Snabb återkoppling</span>
+          <span>✓ Arbeten i {company.city}</span>
+        </div>
 
         <div className="hero-actions">
           <a
@@ -30,27 +36,33 @@ export default function Hero() {
             href={company.bookingUrl}
             style={{ backgroundColor: company.theme?.primary || "#2563eb" }}
           >
-            {company.ctaText || "Book now"}
+            {company.ctaText || "Boka kostnadsfritt hembesök"}
           </a>
 
           <a className="btn btn-secondary" href="#services">
-            View services
+            Se våra tjänster
           </a>
+
+          {company.phone && (
+            <a className="btn btn-secondary" href={`tel:${company.phone}`}>
+              Ring {company.phone}
+            </a>
+          )}
         </div>
 
         <div className="hero-highlights">
           <div className="hero-highlight-card">
-            <strong>{company.city}</strong>
-            <span>{company.address}</span>
+            <strong>Verksamhetsområde</strong>
+            <span>{company.city} och närområde</span>
           </div>
 
           <div className="hero-highlight-card">
-            <strong>Opening hours</strong>
-            <span>{company.openingHours}</span>
+            <strong>Offert</strong>
+            <span>Kostnadsfri första kontakt</span>
           </div>
 
           <div className="hero-highlight-card">
-            <strong>Contact</strong>
+            <strong>Telefon</strong>
             <span>{company.phone}</span>
           </div>
         </div>
