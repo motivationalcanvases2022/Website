@@ -163,10 +163,26 @@ export default function DashboardPage() {
   const missed = Math.round((data.totalMessages || 0) * (data.fallbackRate || 0));
   const timeSaved = Math.round((data.totalMessages || 0) * 2);
 
-  const filteredBookings =
+  const filteredBookings = (
     statusFilter === "all"
       ? bookings
-      : bookings.filter((booking) => (booking.status || "confirmed") === statusFilter);
+      : bookings.filter((booking) => (booking.status || "confirmed") === statusFilter)
+  ).sort((a, b) => {
+    const statusOrder = {
+      pending: 0,
+      confirmed: 1,
+      declined: 2,
+    };
+
+    const aStatus = a.status || "confirmed";
+    const bStatus = b.status || "confirmed";
+
+    if (statusOrder[aStatus] !== statusOrder[bStatus]) {
+      return statusOrder[aStatus] - statusOrder[bStatus];
+    }
+
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
 
   const pendingCount = bookings.filter(
     (booking) => (booking.status || "confirmed") === "pending"
