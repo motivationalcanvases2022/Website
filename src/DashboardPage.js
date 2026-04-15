@@ -17,6 +17,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
     async function loadData() {
@@ -163,26 +164,38 @@ export default function DashboardPage() {
   const missed = Math.round((data.totalMessages || 0) * (data.fallbackRate || 0));
   const timeSaved = Math.round((data.totalMessages || 0) * 2);
 
-  const filteredBookings = (
+  const statusFilteredBookings =
     statusFilter === "all"
       ? bookings
-      : bookings.filter((booking) => (booking.status || "confirmed") === statusFilter)
-  ).sort((a, b) => {
-    const statusOrder = {
-      pending: 0,
-      confirmed: 1,
-      declined: 2,
-    };
+      : bookings.filter((booking) => (booking.status || "confirmed") === statusFilter);
 
-    const aStatus = a.status || "confirmed";
-    const bStatus = b.status || "confirmed";
+  const filteredBookings = statusFilteredBookings
+    .filter((booking) => {
+      const query = searchTerm.toLowerCase().trim();
 
-    if (statusOrder[aStatus] !== statusOrder[bStatus]) {
-      return statusOrder[aStatus] - statusOrder[bStatus];
-    }
+      if (!query) return true;
 
-    return new Date(b.created_at) - new Date(a.created_at);
-  });
+      return (
+        (booking.name || "").toLowerCase().includes(query) ||
+        (booking.contact || "").toLowerCase().includes(query)
+      );
+    })
+    .sort((a, b) => {
+      const statusOrder = {
+        pending: 0,
+        confirmed: 1,
+        declined: 2,
+      };
+
+      const aStatus = a.status || "confirmed";
+      const bStatus = b.status || "confirmed";
+
+      if (statusOrder[aStatus] !== statusOrder[bStatus]) {
+        return statusOrder[aStatus] - statusOrder[bStatus];
+      }
+
+      return new Date(b.created_at) - new Date(a.created_at);
+    });
 
   const pendingCount = bookings.filter(
     (booking) => (booking.status || "confirmed") === "pending"
@@ -344,6 +357,13 @@ export default function DashboardPage() {
               Nekade
             </button>
           </div>
+          <input
+            type="text"
+            placeholder="Sök på namn eller kontakt"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            style={styles.searchInput}
+          />
 
           {filteredBookings.length ? (
             <div style={styles.bookingList}>
@@ -588,7 +608,14 @@ const styles = {
     background: "#fff",
     cursor: "pointer",
   },
-
+  searchInput: {
+    width: "100%",
+    maxWidth: "320px",
+    padding: "10px 12px",
+    borderRadius: "8px",
+    border: "1px solid #ddd",
+    marginBottom: "16px",
+  },
   filterButtonActive: {
     background: "#111",
     color: "#fff",
