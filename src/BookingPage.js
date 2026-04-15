@@ -92,21 +92,19 @@ async function handleSubmit(e) {
   }
 
   try {
-    const requestedTime = `${selectedSlot.date} ${selectedSlot.time}`;
+    const requestedTime = selectedSlot
+      ? `${selectedSlot.date} ${selectedSlot.time}`
+      : null;
+
+    const requestedTimes = selectedSlots.map(
+      (slot) => `${slot.date} ${slot.time}`
+    );
 
     const res = await fetch("https://chatbot-ondf.onrender.com/api/booking-request", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      const requestedTime = selectedSlot
-        ? `${selectedSlot.date} ${selectedSlot.time}`
-        : null;
-
-      const requestedTimes = selectedSlots.map(
-        (slot) => `${slot.date} ${slot.time}`
-      );
-
       body: JSON.stringify({
         company: "kmcgroup",
         name: form.name,
