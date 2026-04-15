@@ -91,10 +91,8 @@ export default function DashboardPage() {
     loadData();
   }, []);
 
-  async function handleApprove(id) {
+  async function handleApprove(id, approvedTime) {
     try {
-      const apiBase = process.env.REACT_APP_CHATBOT_API_URL;
-
       const {
         data: { session },
       } = await supabase.auth.getSession();
@@ -102,8 +100,12 @@ export default function DashboardPage() {
       const res = await fetch(`https://chatbot-ondf.onrender.com/api/booking-requests/${id}/approve`, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${session.access_token}`,
         },
+        body: JSON.stringify({
+          approved_time: approvedTime,
+        }),
       });
 
       const raw = await res.text();
@@ -267,8 +269,39 @@ export default function DashboardPage() {
                   </div>
 
                   <div style={styles.bookingRow}>
-                    <span style={styles.bookingLabel}>Önskad tid:</span>
-                    <span>{booking.requested_time || "-"}</span>
+                    <span style={styles.bookingLabel}>
+                      {booking.booking_mode === "approval" ? "Önskade tider:" : "Önskad tid:"}
+                    </span>
+
+                    <div>
+                      {booking.booking_mode === "approval" &&
+                      Array.isArray(booking.requested_times) &&
+                      booking.requested_times.length ? (
+                        booking.requested_times.map((time, index) => (
+                          <div key={index} style={{ marginBottom: "8px" }}>
+                            <div>{time}</div>
+
+                            {booking.status === "pending" && (
+                              <button
+                                onClick={() => handleApprove(booking.id, time)}
+                                style={{
+                                  marginTop: "4px",
+                                  background: "green",
+                                  color: "white",
+                                  padding: "6px 10px",
+                                  border: "none",
+                                  borderRadius: "6px",
+                                }}
+                              >
+                                Godkänn denna tid
+                              </button>
+                            )}
+                          </div>
+                        ))
+                      ) : (
+                        <span>{booking.requested_time || "-"}</span>
+                      )}
+                    </div>
                   </div>
 
                   {booking.address && booking.address.trim() !== "" && (
@@ -288,13 +321,6 @@ export default function DashboardPage() {
                   )}
                   {booking.status === "pending" && (
                     <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
-                      <button
-                        onClick={() => handleApprove(booking.id)}
-                        style={{ background: "green", color: "white", padding: "6px 10px", border: "none", borderRadius: "6px" }}
-                      >
-                        Godkänn
-                      </button>
-
                       <button
                         onClick={() => handleDecline(booking.id)}
                         style={{ background: "red", color: "white", padding: "6px 10px", border: "none", borderRadius: "6px" }}
