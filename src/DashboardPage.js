@@ -168,6 +168,18 @@ export default function DashboardPage() {
       ? bookings
       : bookings.filter((booking) => (booking.status || "confirmed") === statusFilter);
 
+  const pendingCount = bookings.filter(
+    (booking) => (booking.status || "confirmed") === "pending"
+  ).length;
+
+  const confirmedCount = bookings.filter(
+    (booking) => (booking.status || "confirmed") === "confirmed"
+  ).length;
+
+  const declinedCount = bookings.filter(
+    (booking) => (booking.status || "confirmed") === "declined"
+  ).length;
+
   function getStatusLabel(status) {
     if (status === "pending") return "Väntar";
     if (status === "confirmed") return "Bekräftad";
@@ -222,6 +234,23 @@ export default function DashboardPage() {
             label="Sparad tid"
             value={`⏱️ ${timeSaved} min`}
             sub="automatiserad support"
+          />
+          <StatCard
+            label="Väntar"
+            value={`🟠 ${pendingCount}`}
+            sub="förfrågningar att hantera"
+          />
+
+          <StatCard
+            label="Bekräftade"
+            value={`🟢 ${confirmedCount}`}
+            sub="godkända bokningar"
+          />
+
+          <StatCard
+            label="Nekade"
+            value={`🔴 ${declinedCount}`}
+            sub="nekade förfrågningar"
           />
         </div>
 
