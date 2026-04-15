@@ -16,6 +16,7 @@ export default function DashboardPage() {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   useEffect(() => {
     async function loadData() {
@@ -162,6 +163,11 @@ export default function DashboardPage() {
   const missed = Math.round((data.totalMessages || 0) * (data.fallbackRate || 0));
   const timeSaved = Math.round((data.totalMessages || 0) * 2);
 
+  const filteredBookings =
+    statusFilter === "all"
+      ? bookings
+      : bookings.filter((booking) => (booking.status || "confirmed") === statusFilter);
+
   function getStatusLabel(status) {
     if (status === "pending") return "Väntar";
     if (status === "confirmed") return "Bekräftad";
@@ -252,10 +258,51 @@ export default function DashboardPage() {
 
         <div style={styles.section}>
           <h2 style={styles.sectionTitle}>📩 Bokningsförfrågningar</h2>
+          <div style={styles.filterBar}>
+            <button
+              onClick={() => setStatusFilter("all")}
+              style={{
+                ...styles.filterButton,
+                ...(statusFilter === "all" ? styles.filterButtonActive : {}),
+              }}
+            >
+              Alla
+            </button>
 
-          {bookings.length ? (
+            <button
+              onClick={() => setStatusFilter("pending")}
+              style={{
+                ...styles.filterButton,
+                ...(statusFilter === "pending" ? styles.filterButtonActive : {}),
+              }}
+            >
+              Väntar
+            </button>
+
+            <button
+              onClick={() => setStatusFilter("confirmed")}
+              style={{
+                ...styles.filterButton,
+                ...(statusFilter === "confirmed" ? styles.filterButtonActive : {}),
+              }}
+            >
+              Bekräftade
+            </button>
+
+            <button
+              onClick={() => setStatusFilter("declined")}
+              style={{
+                ...styles.filterButton,
+                ...(statusFilter === "declined" ? styles.filterButtonActive : {}),
+              }}
+            >
+              Nekade
+            </button>
+          </div>
+
+          {filteredBookings.length ? (
             <div style={styles.bookingList}>
-              {bookings.map((booking) => (
+              {filteredBookings.map((booking) => (
                 <div key={booking.id} style={styles.bookingCard}>
                   <div style={styles.bookingHeader}>
                     <strong>{booking.name || "Ingen angiven"}</strong>
@@ -481,6 +528,26 @@ const styles = {
   bookingLabel: {
     fontWeight: "600",
     marginRight: "6px",
+  },
+  filterBar: {
+    display: "flex",
+    gap: "10px",
+    marginBottom: "16px",
+    flexWrap: "wrap",
+  },
+
+  filterButton: {
+    padding: "8px 12px",
+    borderRadius: "8px",
+    border: "1px solid #ddd",
+    background: "#fff",
+    cursor: "pointer",
+  },
+
+  filterButtonActive: {
+    background: "#111",
+    color: "#fff",
+    border: "1px solid #111",
   },
   mapLink: {
     color: "#2563eb",
