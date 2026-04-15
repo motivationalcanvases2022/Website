@@ -169,6 +169,19 @@ export default function DashboardPage() {
     return "Bekräftad";
   }
 
+  function getStatusStyle(status) {
+    if (status === "confirmed") {
+      return { color: "green", fontWeight: "bold" };
+    }
+    if (status === "pending") {
+      return { color: "orange", fontWeight: "bold" };
+    }
+    if (status === "declined") {
+      return { color: "red", fontWeight: "bold" };
+    }
+    return {};
+  }
+
   return (
     <div style={styles.page}>
       <div style={styles.container}>
@@ -255,7 +268,9 @@ export default function DashboardPage() {
 
                   <div style={styles.bookingRow}>
                     <span style={styles.bookingLabel}>Status:</span>
-                    <span>{getStatusLabel(booking.status || "confirmed")}</span>
+                    <span style={getStatusStyle(booking.status)}>
+                      {getStatusLabel(booking.status)}
+                    </span>
                   </div>
 
                   <div style={styles.bookingRow}>
@@ -299,7 +314,25 @@ export default function DashboardPage() {
                           </div>
                         ))
                       ) : (
-                        <span>{booking.requested_time || "-"}</span>
+                        <div style={styles.bookingRow}>
+                          <span style={styles.bookingLabel}>
+                            {booking.status === "confirmed" ? "Bekräftad tid:" : "Önskade tider:"}
+                          </span>
+
+                          <div>
+                            {booking.status === "confirmed" ? (
+                              <strong>{booking.requested_time}</strong>
+                            ) : booking.booking_mode === "approval" &&
+                              Array.isArray(booking.requested_times) &&
+                              booking.requested_times.length ? (
+                              booking.requested_times.map((time, index) => (
+                                <div key={index}>{time}</div>
+                              ))
+                            ) : (
+                              <span>{booking.requested_time || "-"}</span>
+                            )}
+                          </div>
+                        </div>
                       )}
                     </div>
                   </div>
