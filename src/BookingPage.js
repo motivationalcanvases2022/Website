@@ -8,6 +8,7 @@ export default function BookingPage() {
   const bookingMode = company?.booking?.mode || "direct";
   const isApprovalMode = bookingMode === "approval";
   const [selectedSlot, setSelectedSlot] = useState(null);
+  const [selectedSlots, setSelectedSlots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [form, setForm] = useState({
@@ -78,9 +79,16 @@ useEffect(() => {
 async function handleSubmit(e) {
   e.preventDefault();
 
-  if (!selectedSlot) {
-    alert("Välj en tid först");
-    return;
+  if (isApprovalMode) {
+    if (selectedSlots.length === 0) {
+      alert("Välj minst en tid först");
+      return;
+    }
+  } else {
+    if (!selectedSlot) {
+      alert("Välj en tid först");
+      return;
+    }
   }
 
   try {
@@ -91,6 +99,14 @@ async function handleSubmit(e) {
       headers: {
         "Content-Type": "application/json",
       },
+      const requestedTime = selectedSlot
+        ? `${selectedSlot.date} ${selectedSlot.time}`
+        : null;
+
+      const requestedTimes = selectedSlots.map(
+        (slot) => `${slot.date} ${slot.time}`
+      );
+
       body: JSON.stringify({
         company: "kmcgroup",
         name: form.name,
@@ -98,6 +114,7 @@ async function handleSubmit(e) {
         message: form.message,
         address: form.address,
         requested_time: requestedTime,
+        requested_times: isApprovalMode ? requestedTimes : undefined,
       }),
     });
 
@@ -154,12 +171,33 @@ async function handleSubmit(e) {
 
                   <div style={styles.slotGrid}>
                     {daySlots.map((slot, i) => {
-                      const isSelected = selectedSlot?.start === slot.start;
+                      const isSelected = isApprovalMode
+                        ? selectedSlots.some((s) => s.start === slot.start)
+                        : selectedSlot?.start === slot.start;
 
                       return (
                         <button
                           key={i}
-                          onClick={() => setSelectedSlot(slot)}
+                          onClick={() => {
+                            if (isApprovalMode) {
+                              const exists = selectedSlots.some((s) => s.start === slot.start);
+
+                              if (exists) {
+                                setSelectedSlots(selectedSlots.filter((s) => s.start !== slot.start));
+                                return;
+                              }
+
+                              if (selectedSlots.length >= 3) {
+                                alert("Du kan välja max 3 tider.");
+                                return;
+                              }
+
+                              setSelectedSlots([...selectedSlots, slot]);
+                              return;
+                            }
+
+                            setSelectedSlot(slot);
+                          }}
                           style={{
                             ...styles.slotButton,
                             ...(isSelected ? styles.slotButtonSelected : {}),
@@ -181,11 +219,26 @@ async function handleSubmit(e) {
                 </h2>
 
                 <p style={styles.selectedInfo}>
-                  {selectedSlot
-                    ? `${isApprovalMode ? "Önskad tid" : "Vald tid"}: ${formatDateLabel(selectedSlot.date)} kl ${selectedSlot.time}`
-                    : isApprovalMode
-                      ? "Välj en önskad tid i schemat."
-                      : "Välj först en tid i schemat."}
+                  {isApprovalMode ? (
+                    selectedSlots.length ? (
+                      <>
+                        Valda tider:
+                        <br />
+                        {selectedSlots.map((slot) => (
+                          <span key={slot.start}>
+                            {formatDateLabel(slot.date)} kl {slot.time}
+                            <br />
+                          </span>
+                        ))}
+                      </>
+                    ) : (
+                      "Välj upp till 3 önskade tider i schemat."
+                    )
+                  ) : selectedSlot ? (
+                    `Vald tid: ${formatDateLabel(selectedSlot.date)} kl ${selectedSlot.time}`
+                  ) : (
+                    "Välj först en tid i schemat."
+                  )}
                 </p>
 
                 <form onSubmit={handleSubmit} style={styles.form}>
@@ -235,7 +288,7 @@ async function handleSubmit(e) {
                   <button
                     type="submit"
                     style={styles.submitButton}
-                    disabled={!selectedSlot}
+                    disabled={isApprovalMode ? selectedSlots.length === 0 : !selectedSlot}
                   >
                     {isApprovalMode ? "Skicka bokningsförfrågan" : "Bekräfta bokning"}
                   </button>
