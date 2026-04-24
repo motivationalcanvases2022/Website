@@ -5,10 +5,12 @@ export default function Hero() {
 
   const heroStyle = company.heroImage
     ? {
-        backgroundImage: `linear-gradient(rgba(15, 23, 42, 0.58), rgba(15, 23, 42, 0.58)), url(${company.heroImage})`,
+        backgroundImage: `linear-gradient(rgba(10, 15, 25, 0.75), rgba(10, 15, 25, 0.75)), url(${company.heroImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
       }
     : {
-        background: `linear-gradient(135deg, ${company.theme?.secondary || "#0f172a"} 0%, ${company.theme?.primary || "#2563eb"} 100%)`,
+        background: "#0f172a" // mörk, inte gradient
       };
 
   return (

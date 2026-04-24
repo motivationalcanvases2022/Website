@@ -4,12 +4,11 @@
   "heroImage": "/images/electrician-hero.jpg",
 
   "theme": {
-    "primary": "#f39c12",
-    "secondary": "#d35400",
+    "primary": "#f59e0b",
+    "secondary": "#1f1300",
     "background": "#fff8e1",
-    "text": "#663300"
+    "text": "#3b2200"
   },
-
   "ctaText": "Boka el-service",
   "tagline": "Trygg el-service i hela Stockholm",
   "industry": "Elektriker",
