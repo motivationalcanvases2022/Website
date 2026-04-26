@@ -1,3 +1,4 @@
+import { Routes, Route } from "react-router-dom";
 import { getCompanyData } from "./data/companyLoader";
 
 import Header from "./components/Header";
@@ -8,6 +9,12 @@ import FAQ from "./components/FAQ";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import ChatWidget from "./components/ChatWidget";
+import PrivacyPage from "./components/PrivacyPage";
+import CookiesPage from "./components/CookiesPage";
+import CookieBanner from "./components/CookieBanner";
+import SocialProof from "./components/SocialProof";
+import Testimonials from "./components/Testimonials";
+
 import "./styles/main.css";
 
 const company = getCompanyData();
@@ -20,17 +27,32 @@ document.documentElement.style.setProperty("--text", company.theme.text);
 
 console.log("App booking mode:", bookingMode);
 
-export default function App() {
+function HomePage() {
   return (
-    <div className="site-shell">
+    <>
       <Header />
       <Hero />
       <About />
+      <SocialProof />
       <Services />
+      <Testimonials />
       <FAQ />
       <Contact />
       <Footer />
       <ChatWidget />
+      <CookieBanner />
+    </>
+  );
+}
+
+export default function App() {
+  return (
+    <div className="site-shell">
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/cookies" element={<CookiesPage />} />
+      </Routes>
     </div>
   );
 }

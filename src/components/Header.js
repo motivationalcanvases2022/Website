@@ -60,6 +60,8 @@ export default function Header() {
           <a href="#services">Services</a>
           <a href="#faq">FAQ</a>
           <a href="#contact">Contact</a>
+          <a href="/privacy">Integritet</a>
+          <a href="/cookies">Cookies</a>
         </nav>
 
         <a

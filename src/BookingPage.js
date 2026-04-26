@@ -1,16 +1,21 @@
 import { Link } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { getCompanyData } from "./data/companyLoader";
+import BookingWeekCalendar from "./components/BookingWeekCalendar";
 
 export default function BookingPage() {
   const [slots, setSlots] = useState([]);
   const company = getCompanyData();
+
   const bookingMode = company?.booking?.mode || "direct";
   const isApprovalMode = bookingMode === "approval";
+
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedSlots, setSelectedSlots] = useState([]);
+
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
   const [form, setForm] = useState({
     name: "",
     contact: "",
@@ -18,57 +23,44 @@ export default function BookingPage() {
     address: "",
   });
 
-useEffect(() => {
-  async function loadSlots() {
-    try {
-      setLoading(true);
-      setError("");
+  useEffect(() => {
+    async function loadSlots() {
+      try {
+        setLoading(true);
+        setError("");
 
-      const today = new Date();
-      const from = today.toISOString().split("T")[0];
+        const today = new Date();
+        const from = today.toISOString().split("T")[0];
 
-      const future = new Date();
-      future.setDate(today.getDate() + 10);
-      const to = future.toISOString().split("T")[0];
+        const future = new Date();
+        future.setDate(today.getDate() + 21);
+        const to = future.toISOString().split("T")[0];
 
-      const url = `https://chatbot-ondf.onrender.com/api/available-slots?company=kmcgroup&from=${from}&to=${to}`;
-      console.log("FETCH URL:", url);
+        const url = `https://chatbot-ondf.onrender.com/api/available-slots?company=kmcgroup&from=${from}&to=${to}`;
 
-      const res = await fetch(url);
+        const res = await fetch(url);
 
-      if (!res.ok) {
-        const raw = await res.text();
-        throw new Error(raw || "Kunde inte hämta lediga tider");
+        if (!res.ok) {
+          const raw = await res.text();
+          throw new Error(raw || "Kunde inte hämta lediga tider");
+        }
+
+        const data = await res.json();
+        setSlots(data.slots || []);
+      } catch (err) {
+        console.error("BOOKING LOAD ERROR:", err);
+        setError(err.message || "Något gick fel");
+      } finally {
+        setLoading(false);
       }
-
-      const data = await res.json();
-      setSlots(data.slots || []);
-    } catch (err) {
-      console.error("BOOKING LOAD ERROR:", err);
-      setError(err.message || "Något gick fel");
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  loadSlots();
-}, []);
-
-  const groupedSlots = useMemo(() => {
-    const groups = {};
-
-    for (const slot of slots) {
-      if (!groups[slot.date]) {
-        groups[slot.date] = [];
-      }
-      groups[slot.date].push(slot);
     }
 
-    return Object.entries(groups);
-  }, [slots]);
+    loadSlots();
+  }, []);
 
   function formatDateLabel(dateString) {
     const date = new Date(`${dateString}T00:00:00`);
+
     return date.toLocaleDateString("sv-SE", {
       weekday: "long",
       day: "numeric",
@@ -76,86 +68,122 @@ useEffect(() => {
     });
   }
 
-async function handleSubmit(e) {
-  e.preventDefault();
+  function handleSlotSelect(slot) {
+    if (isApprovalMode) {
+      const exists = selectedSlots.some((s) => s.start === slot.start);
 
-  if (isApprovalMode) {
-    if (selectedSlots.length === 0) {
-      alert("Välj minst en tid först");
+      if (exists) {
+        setSelectedSlots(selectedSlots.filter((s) => s.start !== slot.start));
+        return;
+      }
+
+      if (selectedSlots.length >= 3) {
+        alert("Du kan välja max 3 tider.");
+        return;
+      }
+
+      setSelectedSlots([...selectedSlots, slot]);
       return;
     }
-  } else {
-    if (!selectedSlot) {
-      alert("Välj en tid först");
-      return;
-    }
+
+    setSelectedSlot(slot);
   }
 
-  try {
-    const requestedTime = selectedSlot
-      ? `${selectedSlot.date} ${selectedSlot.time}`
-      : null;
+  async function handleSubmit(e) {
+    e.preventDefault();
 
-    const requestedTimes = selectedSlots.map(
-      (slot) => `${slot.date} ${slot.time}`
-    );
+    if (isApprovalMode) {
+      if (selectedSlots.length === 0) {
+        alert("Välj minst en tid först");
+        return;
+      }
+    } else {
+      if (!selectedSlot) {
+        alert("Välj en tid först");
+        return;
+      }
+    }
 
-    const res = await fetch("https://chatbot-ondf.onrender.com/api/booking-request", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        company: "kmcgroup",
-        name: form.name,
-        contact: form.contact,
-        message: form.message,
-        address: form.address,
-        requested_time: requestedTime,
-        requested_times: isApprovalMode ? requestedTimes : undefined,
-      }),
-    });
-
-    const raw = await res.text();
-    console.log("BOOKING RAW RESPONSE:", raw);
-
-    let data;
     try {
-      data = JSON.parse(raw);
-    } catch {
-      throw new Error(`Backend returned non-JSON: ${raw.slice(0, 200)}`);
-    }
+      const requestedTime = selectedSlot
+        ? `${selectedSlot.date} ${selectedSlot.time}`
+        : null;
 
-    if (!res.ok) {
-      throw new Error(data.error || "Kunde inte skapa bokning");
-    }
+      const requestedTimes = selectedSlots.map(
+        (slot) => `${slot.date} ${slot.time}`
+      );
 
-    alert(
-      data.message ||
-        (isApprovalMode ? "Bokningsförfrågan skickad!" : "Bokning skapad!")
-    );
-    window.location.reload();
-  } catch (err) {
-    alert(err.message || "Något gick fel");
+      const res = await fetch(
+        "https://chatbot-ondf.onrender.com/api/booking-request",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            company: "kmcgroup",
+            name: form.name,
+            contact: form.contact,
+            message: form.message,
+            address: form.address,
+            requested_time: requestedTime,
+            requested_times: isApprovalMode ? requestedTimes : undefined,
+          }),
+        }
+      );
+
+      const raw = await res.text();
+      console.log("BOOKING RAW RESPONSE:", raw);
+
+      let data;
+
+      try {
+        data = JSON.parse(raw);
+      } catch {
+        throw new Error(`Backend returned non-JSON: ${raw.slice(0, 200)}`);
+      }
+
+      if (!res.ok) {
+        throw new Error(data.error || "Kunde inte skapa bokning");
+      }
+
+      alert(
+        data.message ||
+          (isApprovalMode ? "Bokningsförfrågan skickad!" : "Bokning skapad!")
+      );
+
+      window.location.reload();
+    } catch (err) {
+      alert(err.message || "Något gick fel");
+    }
   }
-}
 
-    return (
-      <div style={styles.page}>
-        <div style={styles.container}>
-          <Link to="/" style={styles.backLink}>
-            ← Tillbaka till hemsidan
-          </Link>
+  const submitDisabled = isApprovalMode
+    ? selectedSlots.length === 0
+    : !selectedSlot;
 
-          <h1 style={styles.title}>
-            {isApprovalMode ? "Skicka bokningsförfrågan" : "Boka tid"}
-          </h1>
+  const isFormValid =
+    form.name.trim() &&
+    form.contact.trim() &&
+    form.message.trim() &&
+    (isApprovalMode ? selectedSlots.length > 0 : selectedSlot);
 
-          <p style={styles.subtitle}>
-            {isApprovalMode
-              ? "Föreslå en tid och fyll i dina uppgifter. Vi återkommer efter att förfrågan har granskats."
-              : "Välj en ledig tid och fyll i dina uppgifter."}
-          </p>
+  return (
+    <div style={styles.page}>
+      <div style={styles.container}>
+        <Link to="/" style={styles.backLink}>
+          ← Tillbaka till hemsidan
+        </Link>
+
+        <h1 style={styles.title}>
+          {isApprovalMode ? "Skicka bokningsförfrågan" : "Boka tid"}
+        </h1>
+
+        <p style={styles.subtitle}>
+          {isApprovalMode
+            ? "Välj upp till 3 tider och fyll i dina uppgifter. Vi återkommer efter att förfrågan har granskats."
+            : "Välj en ledig tid och fyll i dina uppgifter."}
+        </p>
 
         {loading && <p>Laddar lediga tider...</p>}
         {error && <p style={styles.error}>{error}</p>}
@@ -163,51 +191,13 @@ async function handleSubmit(e) {
         {!loading && !error && (
           <div style={styles.layout}>
             <div style={styles.calendarPanel}>
-              {groupedSlots.map(([date, daySlots]) => (
-                <div key={date} style={styles.dayCard}>
-                  <h2 style={styles.dayTitle}>{formatDateLabel(date)}</h2>
-
-                  <div style={styles.slotGrid}>
-                    {daySlots.map((slot, i) => {
-                      const isSelected = isApprovalMode
-                        ? selectedSlots.some((s) => s.start === slot.start)
-                        : selectedSlot?.start === slot.start;
-
-                      return (
-                        <button
-                          key={i}
-                          onClick={() => {
-                            if (isApprovalMode) {
-                              const exists = selectedSlots.some((s) => s.start === slot.start);
-
-                              if (exists) {
-                                setSelectedSlots(selectedSlots.filter((s) => s.start !== slot.start));
-                                return;
-                              }
-
-                              if (selectedSlots.length >= 3) {
-                                alert("Du kan välja max 3 tider.");
-                                return;
-                              }
-
-                              setSelectedSlots([...selectedSlots, slot]);
-                              return;
-                            }
-
-                            setSelectedSlot(slot);
-                          }}
-                          style={{
-                            ...styles.slotButton,
-                            ...(isSelected ? styles.slotButtonSelected : {}),
-                          }}
-                        >
-                          {slot.time}
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+              <BookingWeekCalendar
+                slots={slots}
+                isApprovalMode={isApprovalMode}
+                selectedSlot={selectedSlot}
+                selectedSlots={selectedSlots}
+                onSelectSlot={handleSlotSelect}
+              />
             </div>
 
             <div style={styles.formPanel}>
@@ -230,12 +220,14 @@ async function handleSubmit(e) {
                         ))}
                       </>
                     ) : (
-                      "Välj upp till 3 önskade tider i schemat."
+                      "Välj upp till 3 önskade tider i kalendern."
                     )
                   ) : selectedSlot ? (
-                    `Vald tid: ${formatDateLabel(selectedSlot.date)} kl ${selectedSlot.time}`
+                    `Vald tid: ${formatDateLabel(selectedSlot.date)} kl ${
+                      selectedSlot.time
+                    }`
                   ) : (
-                    "Välj först en tid i schemat."
+                    "Välj först en tid i kalendern."
                   )}
                 </p>
 
@@ -285,10 +277,16 @@ async function handleSubmit(e) {
 
                   <button
                     type="submit"
-                    style={styles.submitButton}
-                    disabled={isApprovalMode ? selectedSlots.length === 0 : !selectedSlot}
+                    style={{
+                      ...styles.submitButton,
+                      opacity: isFormValid ? 1 : 0.5,
+                      cursor: isFormValid ? "pointer" : "not-allowed",
+                    }}
+                    disabled={!isFormValid}
                   >
-                    {isApprovalMode ? "Skicka bokningsförfrågan" : "Bekräfta bokning"}
+                    {isApprovalMode
+                      ? "Skicka bokningsförfrågan"
+                      : "Bekräfta bokning"}
                   </button>
                 </form>
               </div>
@@ -304,23 +302,23 @@ const styles = {
   page: {
     minHeight: "100vh",
     background: "#f6f7fb",
-    padding: "40px 20px",
+    padding: "80px 20px 40px",
     fontFamily: "system-ui, sans-serif",
   },
-    backLink: {
-      display: "inline-block",
-      marginBottom: "20px",
-      textDecoration: "none",
-      color: "#111827",
-      fontWeight: "600",
-      padding: "10px 14px",
-      border: "1px solid #d1d5db",
-      borderRadius: "10px",
-      background: "#fff",
-    },
   container: {
-    maxWidth: "1200px",
+    maxWidth: "1400px",
     margin: "0 auto",
+  },
+  backLink: {
+    display: "inline-block",
+    marginBottom: "20px",
+    textDecoration: "none",
+    color: "#111827",
+    fontWeight: "600",
+    padding: "10px 14px",
+    border: "1px solid #d1d5db",
+    borderRadius: "10px",
+    background: "#fff",
   },
   title: {
     fontSize: "48px",
@@ -337,44 +335,12 @@ const styles = {
   },
   layout: {
     display: "grid",
-    gridTemplateColumns: "1.4fr 0.9fr",
+    gridTemplateColumns: "1.7fr 0.9fr",
     gap: "24px",
     alignItems: "start",
   },
   calendarPanel: {
-    display: "flex",
-    flexDirection: "column",
-    gap: "20px",
-  },
-  dayCard: {
-    background: "#fff",
-    borderRadius: "18px",
-    padding: "20px",
-    boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
-  },
-  dayTitle: {
-    margin: "0 0 16px 0",
-    fontSize: "22px",
-    textTransform: "capitalize",
-  },
-  slotGrid: {
-    display: "flex",
-    flexWrap: "wrap",
-    gap: "12px",
-  },
-  slotButton: {
-    padding: "12px 18px",
-    borderRadius: "12px",
-    border: "1px solid #d1d5db",
-    background: "#fff",
-    cursor: "pointer",
-    fontWeight: "600",
-    minWidth: "88px",
-  },
-  slotButtonSelected: {
-    background: "#111827",
-    color: "#fff",
-    border: "1px solid #111827",
+    minWidth: 0,
   },
   formPanel: {
     position: "sticky",
@@ -424,5 +390,9 @@ const styles = {
     fontSize: "16px",
     cursor: "pointer",
     marginTop: "4px",
+  },
+  submitButtonDisabled: {
+    opacity: 0.5,
+    cursor: "not-allowed",
   },
 };

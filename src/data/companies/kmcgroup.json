@@ -9,6 +9,7 @@
   "industry": "Websida utvecklare",
   "city": "Stockholm",
   "phone": "0723338984",
+  "logo": "/images/kmcgroup.png",
   "email": "kimskogh04@gmail.com",
   "bookingUrl": "/book",
   "address": "Senapsvägen 18",
@@ -45,7 +46,15 @@
   "faq": [
     {
       "question": "Kan man köpa enbart en integrerad chatbot?",
-      "answer": "Ja, det alternativet är väldigt populärt och effektivt sätt att förbättra kundupplevelser samt eliminerar onödigt jobb för er."
+      "answer": "Ja, absolut. Många kunder väljer att börja med en chatbot för att automatisera kundkontakt och spara tid."
+    },
+    {
+      "question": "Hur lång tid tar det att bygga en hemsida?",
+      "answer": "Vanligtvis tar det mellan 1–3 veckor beroende på projektets omfattning och dina önskemål."
+    },
+    {
+      "question": "Kan ni hjälpa med SEO och synlighet på Google?",
+      "answer": "Ja, vi erbjuder SEO-optimering för att hjälpa din hemsida att ranka högre och få fler kunder."
     }
   ],
   "chatbot": {
