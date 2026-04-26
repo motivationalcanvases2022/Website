@@ -33,7 +33,6 @@ function HomePage() {
       <Header />
       <Hero />
       <About />
-      <SocialProof />
       <Services />
       <Testimonials />
       <FAQ />

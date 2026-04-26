@@ -6,19 +6,19 @@ export default function Testimonials() {
   const testimonials = company.testimonials || [
     {
       quote:
-        "Vi fick en modernare hemsida och ett smidigare sätt att ta emot kundförfrågningar.",
+        "Vi fick en modernare hemsida och ett mycket tydligare sätt för kunder att kontakta oss.",
       name: "Lokal företagare",
-      role: company.city,
+      role: "Stockholm",
     },
     {
       quote:
-        "Bokningsflödet gör det enklare för kunder att ta kontakt utan att behöva ringa.",
+        "Bokningsflödet gör det enklare för kunder att välja tider utan att behöva ringa.",
       name: "Tjänsteföretag",
-      role: "Kundservice",
+      role: "Kundbokning",
     },
     {
       quote:
-        "En tydlig och professionell lösning som hjälper oss att se mer seriösa ut online.",
+        "Sidan känns professionell och hjälper oss presentera våra tjänster på ett bättre sätt.",
       name: "Småföretagare",
       role: "Digital närvaro",
     },
@@ -27,12 +27,12 @@ export default function Testimonials() {
   return (
     <section className="testimonials-section">
       <div className="container">
-        <div className="section-header testimonials-header">
+        <div className="testimonials-top">
           <p className="section-kicker">Kundröster</p>
-          <h2>Byggt för företag som vill få fler förfrågningar</h2>
+          <h2>Företag behöver hemsidor som faktiskt skapar kontakt</h2>
           <p>
-            En modern hemsida, smart bokning och AI-support hjälper kunder att
-            ta nästa steg snabbare.
+            En modern hemsida, tydlig bokning och smart automation gör det
+            enklare för kunder att ta nästa steg.
           </p>
         </div>
 
@@ -44,9 +44,8 @@ export default function Testimonials() {
 
               <div className="testimonial-author">
                 <div className="testimonial-avatar">
-                  {item.name?.charAt(0) || "K"}
+                  {item.name.charAt(0)}
                 </div>
-
                 <div>
                   <strong>{item.name}</strong>
                   <span>{item.role}</span>

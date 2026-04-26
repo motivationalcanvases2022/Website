@@ -175,7 +175,7 @@ export default function BookingPage() {
           ← Tillbaka till hemsidan
         </Link>
 
-        <h1 style={styles.title}>
+        <h1 className="booking-page-title" style={styles.title}>
           {isApprovalMode ? "Skicka bokningsförfrågan" : "Boka tid"}
         </h1>
 
@@ -189,8 +189,8 @@ export default function BookingPage() {
         {error && <p style={styles.error}>{error}</p>}
 
         {!loading && !error && (
-          <div style={styles.layout}>
-            <div style={styles.calendarPanel}>
+          <div className="booking-page-layout" style={styles.layout}>
+            <div className="booking-calendar-panel" style={styles.calendarPanel}>
               <BookingWeekCalendar
                 slots={slots}
                 isApprovalMode={isApprovalMode}
@@ -200,7 +200,7 @@ export default function BookingPage() {
               />
             </div>
 
-            <div style={styles.formPanel}>
+            <div className="booking-form-panel" style={styles.formPanel}>
               <div style={styles.formCard}>
                 <h2 style={styles.formTitle}>
                   {isApprovalMode ? "Din förfrågan" : "Din bokning"}
@@ -275,7 +275,7 @@ export default function BookingPage() {
                     }
                   />
 
-                  <button
+                  <button className="booking-submit-btn"
                     type="submit"
                     style={{
                       ...styles.submitButton,
