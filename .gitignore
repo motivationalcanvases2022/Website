@@ -2,3 +2,5 @@
 dist
 .env
 build
+!public/images/
+!public/images/*
