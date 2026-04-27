@@ -10,7 +10,8 @@
   "city": "Ekerö",
   "phone": "0707747834",
   "email": "simon.nordeberg@icloud.com",
-  "bookingUrl": "",
+  "bookingUrl": "/book?company=nordebergentrepenadab",
+  "ctaText": "Boka hembesök",
   "address": "23A Gräsåkersvägen",
   "openingHours": "Öppet dygnet runt",
   "heroTitle": "Nordebergs Entrepenad AB - Din partner inom mark, bygg och stängselmontage",
@@ -38,6 +39,23 @@
     {
       "question": "Hur kan jag boka en tid?",
       "answer": "Du kan boka tid genom att ringa oss på 0707747834 eller skicka ett mail till simon.nordeberg@icloud.com."
+    }
+  ],
+  "testimonials": [
+    {
+      "quote": "Vi fick snabbt hjälp med tydlig kommunikation och ett professionellt utfört arbete.",
+      "name": "Villaägare",
+      "role": "Markarbete"
+    },
+    {
+      "quote": "Smidig kontakt, bra återkoppling och ett resultat som blev precis som vi ville.",
+      "name": "Privatkund",
+      "role": "Trädgård & grundarbete"
+    },
+    {
+      "quote": "Pålitliga, noggranna och enkla att ha att göra med från första kontakt till färdigt jobb.",
+      "name": "Fastighetsägare",
+      "role": "Bygg & anläggning"
     }
   ],
   "chatbot": {
