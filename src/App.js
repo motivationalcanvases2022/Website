@@ -14,6 +14,8 @@ import CookiesPage from "./components/CookiesPage";
 import CookieBanner from "./components/CookieBanner";
 import SocialProof from "./components/SocialProof";
 import Testimonials from "./components/Testimonials";
+import WhyChooseUs from "./components/WhyChooseUs";
+import CTASection from "./components/CTASection";
 
 import "./styles/main.css";
 
@@ -33,7 +35,9 @@ function HomePage() {
       <Header />
       <Hero />
       <About />
+      <WhyChooseUs />
       <Services />
+      <CTASection />
       <Testimonials />
       <FAQ />
       <Contact />
