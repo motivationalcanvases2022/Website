@@ -24,9 +24,29 @@ function loadAllCompanies() {
 const companies = loadAllCompanies();
 const fallbackCompany = companies.kmcgroup || Object.values(companies)[0] || null;
 
+function getCompanyKeyFromDomain() {
+  const host = window.location.hostname.toLowerCase();
+
+  if (host.includes("nordeberg.se")) {
+    return "nordebergentrepenadab";
+  }
+
+  if (host.includes("kmcgroup.se")) {
+    return "kmcgroup";
+  }
+
+  return "kmcgroup";
+}
+
 export function getCompanyKeyFromUrl() {
   const params = new URLSearchParams(window.location.search);
-  return normalizeCompanyKey(params.get("company") || "kmcgroup");
+  const companyFromUrl = params.get("company");
+
+  if (companyFromUrl) {
+    return normalizeCompanyKey(companyFromUrl);
+  }
+
+  return getCompanyKeyFromDomain();
 }
 
 export function getCompanyData() {
