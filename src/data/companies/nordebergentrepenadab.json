@@ -34,6 +34,63 @@
       "description": "Vi erbjuder komplett stängselmontage med olika typer av säkerhetsstängsel. Vårt mål är att skydda din egendom med stil och funktion."
     }
   ],
+  "whyChooseUs": [
+    {
+      "title": "Noggrant utfört arbete",
+      "text": "Vi lägger vikt vid detaljer, förarbete och ett resultat som håller över tid."
+    },
+    {
+      "title": "Tydlig kommunikation",
+      "text": "Du får rak information om arbetet, tidsplanen och vad som behöver göras."
+    },
+    {
+      "title": "Trygg hjälp från start",
+      "text": "Vi hjälper dig hela vägen från första kontakt till färdigt projekt."
+    }
+  ],
+  "process": [
+    {
+      "title": "Skicka en förfrågan",
+      "text": "Berätta kort vad du behöver hjälp med, till exempel markarbete, dränering, grundarbete eller trädgårdsprojekt."
+    },
+    {
+      "title": "Vi återkopplar snabbt",
+      "text": "Vi går igenom behovet, platsen och omfattningen för att kunna ge en tydlig bedömning."
+    },
+    {
+      "title": "Du får en tydlig offert",
+      "text": "Du får ett förslag med vad som ingår, hur arbetet går till och nästa steg."
+    },
+    {
+      "title": "Arbetet utförs noggrant",
+      "text": "När allt är godkänt planeras arbetet och utförs med fokus på kvalitet, tydlighet och ett hållbart resultat."
+    }
+  ],
+  "caseStudies": [
+    {
+      "title": "Markarbete inför uteplats",
+      "category": "Markarbete",
+      "description": "Förarbete och planering inför en ny uteplats med fokus på stabil grund och snygg finish.",
+      "image": "/images/nordeberg-project-1.jpg"
+    },
+    {
+      "title": "Trädgårdsprojekt för villa",
+      "category": "Trädgård",
+      "description": "Hjälp med mark, struktur och förberedelser för en mer användbar utomhusmiljö.",
+      "image": "/images/nordeberg-project-2.jpg"
+    },
+    {
+      "title": "Grundarbete och förberedelse",
+      "category": "Grundarbete",
+      "description": "Noggrant utfört arbete inför fortsatt byggnation.",
+      "image": "/images/nordeberg-project-3.jpg"
+    }
+  ],
+  "ctaSection": {
+    "title": "Behöver du hjälp med mark eller bygg?",
+    "text": "Skicka en förfrågan så återkommer vi snabbt med nästa steg.",
+    "buttonText": "Begär kostnadsfri offert"
+  },
   "faq": [
     {
       "question": "Vad jobbar ni med?",
@@ -59,6 +116,20 @@
       "quote": "Pålitliga, noggranna och enkla att ha att göra med från första kontakt till färdigt jobb.",
       "name": "Fastighetsägare",
       "role": "Bygg & anläggning"
+    }
+  ],
+  "stats": [
+    {
+      "value": "100%",
+      "label": "kostnadsfri offert"
+    },
+    {
+      "value": "24h",
+      "label": "snabb återkoppling"
+    },
+    {
+      "value": "Lokalt",
+      "label": "i närområdet"
     }
   ],
   "chatbot": {

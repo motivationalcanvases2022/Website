@@ -3,6 +3,12 @@ import { getCompanyData } from "../data/companyLoader";
 export default function Hero() {
   const company = getCompanyData();
 
+  const stats = company.stats || [
+    { value: "+50", label: "företag hjälpta" },
+    { value: "24/7", label: "AI-support" },
+    { value: "Snabbt", label: "klar på dagar" },
+  ];
+
   const heroStyle = company.heroImage
     ? {
         backgroundImage: `linear-gradient(rgba(10, 15, 25, 0.78), rgba(10, 15, 25, 0.78)), url(${company.heroImage})`,
@@ -37,6 +43,15 @@ export default function Hero() {
           <span>✓ Kostnadsfri offert</span>
           <span>✓ Snabb återkoppling</span>
           <span>✓ Arbeten i {company.city}</span>
+        </div>
+
+        <div className="hero-stats">
+          {stats.map((item, index) => (
+            <div className="hero-stat" key={index}>
+              <strong>{item.value}</strong>
+              <span>{item.label}</span>
+            </div>
+          ))}
         </div>
 
         {/* Rating */}

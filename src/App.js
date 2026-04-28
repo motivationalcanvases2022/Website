@@ -17,6 +17,7 @@ import Testimonials from "./components/Testimonials";
 import WhyChooseUs from "./components/WhyChooseUs";
 import CTASection from "./components/CTASection";
 import ProcessSection from "./components/ProcessSection";
+import CaseStudies from "./components/CaseStudies";
 
 import "./styles/main.css";
 
@@ -39,6 +40,7 @@ function HomePage() {
       <WhyChooseUs />
       <Services />
       <ProcessSection />
+      <CaseStudies />
       <Testimonials />
       <FAQ />
       <CTASection />
