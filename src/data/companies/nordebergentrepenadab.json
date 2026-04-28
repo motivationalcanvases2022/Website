@@ -11,6 +11,9 @@
   "phone": "0707747834",
   "email": "simon.nordeberg@icloud.com",
   "bookingUrl": "/book?company=nordebergentrepenadab",
+  "booking": {
+    "mode": "approval"
+  },
   "ctaText": "Boka hembesök",
   "address": "23A Gräsåkersvägen",
   "openingHours": "Öppet dygnet runt",
