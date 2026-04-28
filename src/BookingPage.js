@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getCompanyData } from "./data/companyLoader";
 import BookingWeekCalendar from "./components/BookingWeekCalendar";
+import { getCompanyKeyFromUrl } from "./data/companyLoader";
 
 export default function BookingPage() {
   const [slots, setSlots] = useState([]);
@@ -15,6 +16,8 @@ export default function BookingPage() {
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const companyKey = getCompanyKeyFromUrl();
 
   const [form, setForm] = useState({
     name: "",
@@ -36,7 +39,7 @@ export default function BookingPage() {
         future.setDate(today.getDate() + 21);
         const to = future.toISOString().split("T")[0];
 
-        const url = `https://chatbot-ondf.onrender.com/api/available-slots?company=kmcgroup&from=${from}&to=${to}`;
+        const url = `https://chatbot-ondf.onrender.com/api/available-slots?company=${companyKey}&from=${from}&to=${to}`;
 
         const res = await fetch(url);
 
@@ -121,7 +124,7 @@ export default function BookingPage() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            company: "kmcgroup",
+            company: companyKey,
             name: form.name,
             contact: form.contact,
             message: form.message,
