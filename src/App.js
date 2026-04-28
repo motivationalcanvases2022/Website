@@ -16,6 +16,7 @@ import SocialProof from "./components/SocialProof";
 import Testimonials from "./components/Testimonials";
 import WhyChooseUs from "./components/WhyChooseUs";
 import CTASection from "./components/CTASection";
+import ProcessSection from "./components/ProcessSection";
 
 import "./styles/main.css";
 
@@ -37,9 +38,10 @@ function HomePage() {
       <About />
       <WhyChooseUs />
       <Services />
-      <CTASection />
+      <ProcessSection />
       <Testimonials />
       <FAQ />
+      <CTASection />
       <Contact />
       <Footer />
       <ChatWidget />

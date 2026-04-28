@@ -17,81 +17,60 @@ export default function Hero() {
   return (
     <section id="top" className="hero" style={heroStyle}>
       <div className="container hero-content">
+
         <p className="eyebrow">
           {company.industry} · {company.city}
         </p>
 
-        <h1>{company.heroTitle}</h1>
+        <h1>
+          Få fler kunder via din hemsida i {company.city}
+        </h1>
 
         <div className="hero-text-wrapper">
           <p className="hero-text">
-            {company.heroSubtitle || company.heroText}
+            Vi bygger hemsidor och bokningssystem som gör det enkelt för dina kunder att kontakta dig och boka direkt – utan krångel.
           </p>
         </div>
 
+        {/* Trust badges */}
         <div className="hero-trust-points">
           <span>✓ Kostnadsfri offert</span>
           <span>✓ Snabb återkoppling</span>
           <span>✓ Arbeten i {company.city}</span>
         </div>
 
-        <div className="hero-stats">
-          <div className="hero-stat">
-            <strong>+50</strong>
-            <span>företag hjälpta</span>
-          </div>
-
-          <div className="hero-stat">
-            <strong>24/7</strong>
-            <span>AI-support</span>
-          </div>
-
-          <div className="hero-stat">
-            <strong>Snabbt</strong>
-            <span>klar på dagar</span>
-          </div>
-        </div>
-
+        {/* Rating */}
         <p className="hero-rating">
-          ⭐ 4.9 / 5 – betrodda av företag i {company.city}
+          ⭐ 4.75 / 5 – betrodda av företag i {company.city}
         </p>
 
+        {/* CTA */}
         <div className="hero-actions">
           <a
             className="btn btn-primary"
             href={company.bookingUrl}
             style={{ backgroundColor: company.theme?.primary || "#2563eb" }}
           >
-            {company.ctaText || "Få gratis offert inom 24h"}
+            Få gratis offert inom 24h
           </a>
 
           <a className="btn btn-secondary" href="#services">
             Se våra tjänster
           </a>
-
-          {company.phone && (
-            <a className="btn btn-secondary" href={`tel:${company.phone}`}>
-              Ring {company.phone}
-            </a>
-          )}
         </div>
 
-        <div className="hero-highlights">
-          <div className="hero-highlight-card">
-            <strong>Verksamhetsområde</strong>
-            <span>{company.city} och närområde</span>
-          </div>
+        {/* Micro trust */}
+        <p className="hero-micro">
+          ✓ Svar inom 24h &nbsp;&nbsp; ✓ Kostnadsfri analys &nbsp;&nbsp; ✓ Inga förpliktelser
+        </p>
 
-          <div className="hero-highlight-card">
-            <strong>Offert</strong>
-            <span>Kostnadsfri första kontakt</span>
-          </div>
+        {/* Phone (secondary CTA) */}
+        {company.phone && (
+          <a className="hero-phone" href={`tel:${company.phone}`}>
+            Eller ring direkt: {company.phone}
+          </a>
+        )}
 
-          <div className="hero-highlight-card">
-            <strong>Telefon</strong>
-            <span>{company.phone}</span>
-          </div>
-        </div>
       </div>
     </section>
   );

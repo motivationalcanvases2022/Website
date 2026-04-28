@@ -1493,3 +1493,97 @@ img {
   gap: 12px;
   flex-wrap: wrap;
 }
+.hero-micro {
+  margin-top: 12px;
+  font-size: 13px;
+  color: #cbd5e1;
+}
+.hero-phone {
+  margin-top: 12px;
+  display: inline-block;
+  font-size: 14px;
+  color: #cbd5e1;
+  text-decoration: none;
+}
+
+.hero-phone:hover {
+  text-decoration: underline;
+}
+.process-section {
+  padding: 82px 20px;
+  background: #f8fafc;
+}
+
+.process-header {
+  max-width: 760px;
+  margin-bottom: 36px;
+}
+
+.process-header h2 {
+  font-size: clamp(34px, 5vw, 52px);
+  line-height: 1.05;
+  letter-spacing: -0.04em;
+  margin: 0 0 16px;
+  color: #111827;
+}
+
+.process-header p {
+  color: #64748b;
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.process-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  padding: 24px;
+  box-shadow: 0 16px 50px rgba(15, 23, 42, 0.06);
+}
+
+.process-number {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: var(--primary);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  margin-bottom: 18px;
+}
+
+.process-card h3 {
+  font-size: 20px;
+  margin: 0 0 10px;
+  color: #111827;
+}
+
+.process-card p {
+  margin: 0;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+@media (max-width: 1000px) {
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .process-section {
+    padding: 60px 20px;
+  }
+}
