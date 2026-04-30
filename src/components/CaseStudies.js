@@ -1,68 +1,87 @@
+import { useState } from "react";
 import { getCompanyData } from "../data/companyLoader";
 
-export default function CaseStudies() {
+export default function Case() {
   const company = getCompanyData();
+  const projects = company.caseStudies || [];
 
-  const cases =
-    company.caseStudies && company.caseStudies.length > 0
-      ? company.caseStudies
-      : [
-          {
-            title: "Projekt anpassat efter kundens behov",
-            category: company.industry || "Projekt",
-            description:
-              "Ett exempel på hur rätt lösning kan göra det enklare för kunder att förstå tjänsten och ta kontakt.",
-            image: "",
-          },
-          {
-            title: "Tydligare kundresa",
-            category: "Kundkontakt",
-            description:
-              "Struktur, tydlig information och smart bokning hjälper besökare att snabbare ta nästa steg.",
-            image: "",
-          },
-          {
-            title: "Professionellt första intryck",
-            category: "Digital närvaro",
-            description:
-              "En modern presentation skapar mer förtroende redan vid första besöket.",
-            image: "",
-          },
-        ];
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  if (!projects.length) return null;
+
+  const project = projects[currentIndex];
+
+  const nextProject = () => {
+    setCurrentIndex((prev) => (prev + 1) % projects.length);
+  };
+
+  const prevProject = () => {
+    setCurrentIndex((prev) =>
+      prev === 0 ? projects.length - 1 : prev - 1
+    );
+  };
 
   return (
-    <section className="case-section">
+    <section id="case" className="case-section">
       <div className="container">
-        <div className="case-header">
-          <p className="section-kicker">Utförda projekt</p>
-          <h2>Resultat som hjälper kunder att känna förtroende</h2>
+        <div className="section-header">
+          <p className="eyebrow">{company.caseEyebrow || "Tidigare arbeten"}</p>
+          <h2>{company.caseTitle || "Före och efter"}</h2>
           <p>
-            Visa exempel på tidigare arbeten, tjänster eller projekt för att
-            göra beslutet enklare för nya kunder.
+            {company.caseIntro ||
+              "Se exempel på tidigare projekt och resultat."}
           </p>
         </div>
 
-        <div className="case-grid">
-          {cases.map((item, index) => (
-            <article className="case-card" key={index}>
-              <div className="case-image">
-                {item.image ? (
-                  <img src={item.image} alt={item.title} />
-                ) : (
-                  <div className="case-placeholder">
-                    <span>{item.category}</span>
-                  </div>
-                )}
-              </div>
+        <div className="before-after-wrapper">
+          {projects.length > 1 && (
+            <button className="case-arrow left" onClick={prevProject}>
+              ←
+            </button>
+          )}
 
-              <div className="case-body">
-                <span className="case-category">{item.category}</span>
-                <h3>{item.title}</h3>
-                <p>{item.description}</p>
+          <div className="before-after-grid">
+            <div className="before-after-card">
+              <div className="image-label">Före</div>
+              <img src={project.beforeImage} alt={`${project.title} före`} />
+
+              <div className="before-after-content">
+                <p className="case-tag">FÖRE</p>
+                <h3>{project.title}</h3>
+                <p>{project.beforeText}</p>
               </div>
-            </article>
-          ))}
+            </div>
+
+            <div className="before-after-card">
+              <div className="image-label">Efter</div>
+              <img src={project.afterImage} alt={`${project.title} efter`} />
+
+              <div className="before-after-content">
+                <p className="case-tag">EFTER</p>
+                <h3>{project.title}</h3>
+                <p>{project.afterText}</p>
+              </div>
+            </div>
+          </div>
+
+          {projects.length > 1 && (
+            <button className="case-arrow right" onClick={nextProject}>
+              →
+            </button>
+          )}
         </div>
+
+        {projects.length > 1 && (
+          <div className="case-dots">
+            {projects.map((_, index) => (
+              <button
+                key={index}
+                className={index === currentIndex ? "active" : ""}
+                onClick={() => setCurrentIndex(index)}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

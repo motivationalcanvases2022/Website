@@ -66,24 +66,30 @@
       "text": "När allt är godkänt planeras arbetet och utförs med fokus på kvalitet, tydlighet och ett hållbart resultat."
     }
   ],
+  "caseEyebrow": "Tidigare arbeten",
+  "caseTitle": "Före och efter",
+  "caseIntro": "Se exempel på hur vi hjälper kunder från förarbete till färdigt resultat.",
   "caseStudies": [
     {
       "title": "Markarbete inför uteplats",
-      "category": "Markarbete",
-      "description": "Förarbete och planering inför en ny uteplats med fokus på stabil grund och snygg finish.",
-      "image": "/images/nordeberg-project-1.jpg"
+      "beforeImage": "/images/before-uteplats.png",
+      "afterImage": "/images/after-uteplats.png",
+      "beforeText": "Ojämn tomtyta utan tydlig struktur eller stabil grund.",
+      "afterText": "Förberedd yta med stabil grund redo för uteplats."
     },
     {
       "title": "Trädgårdsprojekt för villa",
-      "category": "Trädgård",
-      "description": "Hjälp med mark, struktur och förberedelser för en mer användbar utomhusmiljö.",
-      "image": "/images/nordeberg-project-2.jpg"
+      "beforeImage": "/images/before-tradgard.png",
+      "afterImage": "/images/after-tradgard.png",
+      "beforeText": "Svåranvänd utomhusyta med behov av planering.",
+      "afterText": "Mer användbar och trivsam utemiljö för familjen."
     },
     {
       "title": "Grundarbete och förberedelse",
-      "category": "Grundarbete",
-      "description": "Noggrant utfört arbete inför fortsatt byggnation.",
-      "image": "/images/nordeberg-project-3.jpg"
+      "beforeImage": "/images/before-grund.png",
+      "afterImage": "/images/after-grund.png",
+      "beforeText": "Oförberedd yta inför fortsatt byggnation.",
+      "afterText": "Noggrant utfört grundarbete klart för nästa steg."
     }
   ],
   "ctaSection": {

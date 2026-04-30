@@ -326,6 +326,9 @@ img {
 .section-alt {
   background: var(--section-alt);
 }
+.section h2 {
+  margin-bottom: 12px;
+}
 
 .section h2 {
   font-size: clamp(2rem, 4vw, 2.8rem);
@@ -1717,7 +1720,7 @@ img {
   }
 }
 .case-section {
-  padding: 82px 20px;
+  padding: 20px 0;
   background: #ffffff;
 }
 
@@ -1820,7 +1823,7 @@ img {
   }
 
   .case-section {
-    padding: 60px 20px;
+    padding:20px 0px;
   }
 }
 .case-placeholder {
@@ -1838,4 +1841,142 @@ img {
   font-weight: 800;
   font-size: 14px;
   opacity: 0.8;
+}
+.case-section {
+  padding: 0px 0;
+  background: #fff;
+}
+
+.before-after-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.before-after-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  width: 100%;
+}
+
+.before-after-card {
+  position: relative;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+
+.before-after-card img {
+  width: 100%;
+  height: 270px;
+  object-fit: cover;
+  background: #eef2f7;
+  display: block;
+}
+
+.image-label {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.72);
+  color: white;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-weight: 800;
+  font-size: 14px;
+}
+
+.before-after-content {
+  padding: 28px;
+}
+
+.case-tag {
+  color: #ff4b4b;
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+.before-after-content h3 {
+  font-size: 26px;
+  margin-bottom: 14px;
+  color: #020617;
+}
+
+.before-after-content p {
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.case-arrow {
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: none;
+  background: #ff4b4b;
+  color: white;
+  font-size: 24px;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 18px 40px rgba(255, 75, 75, 0.3);
+  flex-shrink: 0;
+}
+
+.case-arrow:hover {
+  transform: translateY(-2px);
+}
+
+.case-dots {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.case-dots button {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: none;
+  background: #cbd5e1;
+  cursor: pointer;
+}
+
+.case-dots button.active {
+  width: 28px;
+  background: #ff4b4b;
+}
+
+@media (max-width: 768px) {
+  .before-after-wrapper {
+    gap: 10px;
+  }
+
+  .before-after-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .case-arrow {
+    position: absolute;
+    top: 38%;
+    z-index: 5;
+  }
+
+  .case-arrow.left {
+    left: -8px;
+  }
+
+  .case-arrow.right {
+    right: -8px;
+  }
+
+  .before-after-card img {
+    height: 220px;
+  }
 }
