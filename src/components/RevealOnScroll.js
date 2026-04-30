@@ -15,7 +15,7 @@ export default function RevealOnScroll({ children, className = "", delay = 0 }) 
           observer.unobserve(element);
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.22 }
     );
 
     observer.observe(element);
