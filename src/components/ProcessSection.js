@@ -1,4 +1,5 @@
 import { getCompanyData } from "../data/companyLoader";
+import RevealOnScroll from "./RevealOnScroll";
 
 export default function ProcessSection() {
   const company = getCompanyData();
@@ -37,11 +38,18 @@ export default function ProcessSection() {
         <div className="process-grid">
           {steps.map((step, index) => (
             <article className="process-card" key={index}>
-              <span className="process-number">
-                {String(index + 1).padStart(2, "0")}
-              </span>
-              <h3>{step.title}</h3>
-              <p>{step.text}</p>
+
+              <RevealOnScroll delay={index * 120}>
+                <>
+                  <span className="process-number">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+
+                  <h3>{step.title}</h3>
+                  <p>{step.text}</p>
+                </>
+              </RevealOnScroll>
+
             </article>
           ))}
         </div>

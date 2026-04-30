@@ -1,4 +1,5 @@
 import { getCompanyData } from "../data/companyLoader";
+import RevealOnScroll from "./RevealOnScroll";
 
 export default function WhyChooseUs() {
   const company = getCompanyData();
@@ -27,9 +28,7 @@ export default function WhyChooseUs() {
         <div className="why-content">
           <p className="section-kicker">Varför välja oss</p>
 
-          <h2>
-            En enklare väg från besökare till kund
-          </h2>
+          <h2>En enklare väg från besökare till kund</h2>
 
           <p>
             Vi hjälper {company.companyName} att skapa en tydligare digital
@@ -39,14 +38,16 @@ export default function WhyChooseUs() {
 
         <div className="why-grid">
           {items.map((item, index) => (
-            <article className="why-card" key={index}>
-              <div className="why-number">
-                {String(index + 1).padStart(2, "0")}
-              </div>
+            <RevealOnScroll key={index} delay={index * 120}>
+              <article className="why-card">
+                <div className="why-number">
+                  {String(index + 1).padStart(2, "0")}
+                </div>
 
-              <h3>{item.title}</h3>
-              <p>{item.text}</p>
-            </article>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            </RevealOnScroll>
           ))}
         </div>
       </div>
