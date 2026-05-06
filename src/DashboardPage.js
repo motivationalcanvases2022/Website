@@ -594,6 +594,31 @@ export default function DashboardPage() {
                       </div>
                     </div>
 
+                    {draft.sent_body && (
+                      <div style={{ marginTop: 14 }}>
+                        <span style={styles.bookingLabel}>Skickat svar:</span>
+
+                        <div
+                          style={{
+                            marginTop: 8,
+                            padding: 16,
+                            borderRadius: 12,
+                            background: "#ecfdf5",
+                            lineHeight: 1.6,
+                            whiteSpace: "pre-wrap",
+                          }}
+                        >
+                          {draft.sent_body}
+                        </div>
+
+                        {draft.sent_at && (
+                          <p style={{ marginTop: 8, color: "#64748b", fontSize: 13 }}>
+                            Skickat: {new Date(draft.sent_at).toLocaleString()}
+                          </p>
+                        )}
+                      </div>
+                    )}
+
                     <div style={{ marginTop: 16, display: "flex", gap: 10 }}>
                       <button
                         style={styles.approve}
